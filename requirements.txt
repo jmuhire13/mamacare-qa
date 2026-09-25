@@ -1,0 +1,24 @@
+# Data handling
+pandas
+numpy
+
+# Baseline and fine-tuned retrieval
+scikit-learn
+rank-bm25
+sentence-transformers
+
+# Answer generation model + efficient fine-tuning
+torch
+transformers
+peft
+accelerate
+
+# Evaluation metrics
+rouge-score
+bert-score
+
+# Web deployment
+gradio
+
+# Pushing/pulling models from Hugging Face Hub
+huggingface-hub

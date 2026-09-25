@@ -1,0 +1,24 @@
+# Personal working files (not part of the submitted project)
+docs/
+
+# Python junk generated automatically when code runs
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Virtual environment (regenerated from requirements.txt, not tracked)
+.venv/
+venv/
+env/
+
+# Secrets (API keys, tokens) - none exist yet, excluded as a safety habit
+.env
+
+# Cleaned/derived data - regenerated deterministically by data_prep.py (seed 42)
+data/processed/
+
+# Large model files - pushed to Hugging Face Hub instead, linked from README
+*.safetensors
+*.bin
+*.pt
+*.ckpt
