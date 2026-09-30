@@ -6,7 +6,7 @@ Input:  data/raw/mother_question_and_answer_pairs_data.json
 Output: data/processed/train.json, val.json, test.json
         data/processed/cleaning_report.json  (exact counts, for the report)
 
-Run with:  python data_prep.py
+Run with:  python src/data_prep.py
 """
 
 import json

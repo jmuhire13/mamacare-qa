@@ -12,7 +12,7 @@ being measured is whether text similarity alone can pick the right answer
 out of all 430 candidates - not whether the model generalises to entirely
 new questions, which these numbers don't test.
 
-Run with: python retrieval_baselines.py
+Run with: python src/retrieval_baselines.py
 """
 
 import json
