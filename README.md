@@ -2,7 +2,7 @@
 
 A domain-specific question-answering assistant for expectant mothers and community health workers, built on a retrieval-based NLP pipeline and evaluated with rigorous, held-out statistical testing.
 
-Live app: _pending deployment_
+Live app: [https://mamacare-app-4dakesxahaqvamub4rjcbk.streamlit.app/](https://mamacare-app-4dakesxahaqvamub4rjcbk.streamlit.app/)
 Demo video: _pending_
 
 ## 1. Problem
@@ -149,4 +149,8 @@ The scripts `src/rerank_experiment.py`, `src/evaluate_domain_separation.py`, `sr
 
 ## 8. Deployment
 
-_To be filled in once the app is deployed._
+The app is deployed on Streamlit Community Cloud, which builds and serves it directly from this GitHub repository's `main` branch with no separate upload step. `requirements.txt` is installed automatically, and `app.py`'s fallback logic downloads the fine-tuned retriever from its Hugging Face Hub repo ([jmuhire13/mamacare-qa-retriever](https://huggingface.co/jmuhire13/mamacare-qa-retriever)) at startup, since the deployed environment has no local `models/` folder.
+
+The original plan was Hugging Face Spaces, which was abandoned after Hugging Face changed its pricing partway through the project and stopped offering free hosting for Gradio apps on its `cpu-basic` tier. `app.py` was rewritten from Gradio to Streamlit as a result; the underlying retrieval and refusal-gate logic is unchanged, only the web interface layer differs.
+
+Verified working end to end on the deployed instance itself, not just assumed from a local test: an off-topic question ("I need a nanny and lecteur for teaching me?") was correctly refused, and an in-domain question ("Why do I feel tired during pregnancy?") was correctly matched to a relevant knowledge-base entry and answered.
