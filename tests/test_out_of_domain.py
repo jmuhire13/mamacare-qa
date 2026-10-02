@@ -61,6 +61,15 @@ def main():
         "true_accuracy matches true_positive / n",
         abs(in_domain["true_accuracy"] - in_domain["true_positive"] / in_domain["n"]) < 0.001,
     )
+    true_acc_ci_low, true_acc_ci_high = in_domain["true_accuracy_95ci"]
+    check(
+        "true_accuracy 95% confidence interval brackets the point estimate (low <= rate <= high)",
+        true_acc_ci_low <= in_domain["true_accuracy"] <= true_acc_ci_high,
+    )
+    check(
+        "true_accuracy 95% confidence interval bounds are both valid fractions between 0 and 1",
+        0.0 <= true_acc_ci_low <= true_acc_ci_high <= 1.0,
+    )
 
     check("out-of-domain refusal_rate is a valid fraction between 0 and 1", 0.0 <= ood["refusal_rate"] <= 1.0)
     check(

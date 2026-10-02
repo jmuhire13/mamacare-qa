@@ -4,7 +4,7 @@ closest matching reviewed answer out of all 430, and returns it - or
 refuses if nothing in the knowledge base is a close enough match.
 
 Uses two different models for two different jobs, based on a direct,
-measured comparison (see docs/WORK_LOG.md): the ORIGINAL pretrained model
+measured comparison: the ORIGINAL pretrained model
 (never fine-tuned) decides WHETHER to answer at all, and the FINE-TUNED
 model decides WHICH answer to give once that gate says yes. Fine-tuning
 made retrieval more accurate but also made confidence scores less reliable
@@ -53,7 +53,7 @@ def load_knowledge_base():
     val = load_split("val")
     test = load_split("test")
     kb_items = train + val + test
-    return [item["answer"] for item in kb_items]
+    return [item["question"] for item in kb_items], [item["answer"] for item in kb_items]
 
 
 def load_threshold():
@@ -64,7 +64,7 @@ def load_threshold():
 print("Loading gate model (pretrained), retrieval model (fine-tuned), and knowledge base...")
 gate_model = SentenceTransformer(GATE_MODEL_NAME)
 retrieval_model = SentenceTransformer(str(RETRIEVAL_MODEL_DIR))
-kb_answers = load_knowledge_base()
+kb_questions, kb_answers = load_knowledge_base()
 gate_kb_embeddings = gate_model.encode(kb_answers, normalize_embeddings=True)
 retrieval_kb_embeddings = retrieval_model.encode(kb_answers, normalize_embeddings=True)
 threshold = load_threshold()
@@ -87,7 +87,12 @@ def answer_question(question):
     retrieval_embedding = retrieval_model.encode([question], normalize_embeddings=True)
     retrieval_similarities = cosine_similarity(retrieval_embedding, retrieval_kb_embeddings)[0]
     best_index = retrieval_similarities.argmax()
-    return kb_answers[best_index]
+
+    # Shown so the user can judge the match themselves - at a measured 4/43
+    # confidently-wrong rate, surfacing the matched question is the cheapest
+    # way to make a mismatch visible instead of invisible.
+    matched_question = kb_questions[best_index]
+    return f"Matched to this question in the knowledge base:\n\"{matched_question}\"\n\n{kb_answers[best_index]}"
 
 
 demo = gr.Interface(

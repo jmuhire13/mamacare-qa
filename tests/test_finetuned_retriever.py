@@ -52,10 +52,10 @@ def main():
             metrics.get("n_queries") == len(split_data),
         )
 
-    # The whole point of fine-tuning is to do at least as well as the
-    # pretrained model it started from - flag it loudly if that's not true,
-    # since that would mean either a bug or a genuinely surprising result
-    # worth investigating, not something to pass silently either way.
+    # This is a regression flag, not proof that fine-tuning helped: the two
+    # models' confidence intervals overlap heavily at this sample size, so
+    # it's here to catch a real break (a corrupted or badly undertrained
+    # model scoring far below the baseline), not to certify an improvement.
     pretrained_test_top1 = results.get("pretrained_embeddings", {}).get("test", {}).get("top_1")
     finetuned_test_top1 = finetuned.get("test", {}).get("top_1")
     if pretrained_test_top1 is not None and finetuned_test_top1 is not None:

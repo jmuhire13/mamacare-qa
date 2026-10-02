@@ -5,16 +5,13 @@ confidence interval so the number can actually be trusted.
 Evaluated against data/out_of_domain_heldout.json (59 questions) only -
 never against the calibration half, which was used to pick the threshold
 in tune_threshold.py. Mixing the two would mean testing the threshold
-against data it was chosen to fit, which proves nothing (see
-docs/WORK_LOG.md for the full story of catching this mistake and fixing
-it, twice).
+against data it was chosen to fit, which proves nothing.
 
 Also reports the real in-domain accuracy breakdown for the TEST split
 (never used for calibration either): true positive (confident AND correct)
 vs confidently wrong (confident, wrong answer given) vs missed refusals -
 not just whether the confidence gate was passed, which is a different and
-much less useful question (see the "confidently wrong" correction in
-docs/WORK_LOG.md).
+much less useful question.
 
 Uses the hybrid design: the PRETRAINED model gates whether to attempt an
 answer, the FINE-TUNED model decides which answer to give, matching app.py.
@@ -99,6 +96,7 @@ def main():
     ood_refused = sum(1 for q in ood_questions if not gate_passes(q))
     ood_wrongly_answered = [q for q in ood_questions if gate_passes(q)]
     ci_low, ci_high = wilson_interval(ood_refused, len(ood_questions))
+    true_acc_ci_low, true_acc_ci_high = wilson_interval(true_positive, len(test))
 
     results = {
         "threshold": threshold,
@@ -109,6 +107,7 @@ def main():
             "refused_wouldve_been_right": refused_wouldve_been_right,
             "refused_correctly": refused_correctly,
             "true_accuracy": round(true_positive / len(test), 3),
+            "true_accuracy_95ci": [true_acc_ci_low, true_acc_ci_high],
         },
         "out_of_domain": {
             "n": len(ood_questions),
@@ -124,7 +123,9 @@ def main():
 
     print(f"Threshold: {threshold}\n")
     print("IN-DOMAIN TEST SPLIT (43 questions), full breakdown:")
-    print(f"  True positive (confident AND correct):     {true_positive}/{len(test)}")
+    print(f"  True positive (confident AND correct):     {true_positive}/{len(test)} "
+          f"({results['in_domain_test']['true_accuracy']:.1%}), 95% CI "
+          f"[{true_acc_ci_low:.1%}, {true_acc_ci_high:.1%}]")
     print(f"  Confidently WRONG (confident, wrong answer): {confidently_wrong}/{len(test)}")
     print(f"  Refused, would've been correct (missed):    {refused_wouldve_been_right}/{len(test)}")
     print(f"  Refused, would've been wrong anyway:        {refused_correctly}/{len(test)}")

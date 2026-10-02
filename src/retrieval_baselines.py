@@ -134,9 +134,18 @@ def main():
         "test": evaluate_ranking(test_items, kb_answers, embedding_score),
     }
 
+    # Merge with whatever's already in the results file instead of overwriting
+    # it outright - evaluate_finetuned_retriever.py adds its own
+    # "finetuned_embeddings" entry to this same file, and a blind overwrite
+    # here would destroy that if this script runs afterward.
     RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    existing_results = {}
+    if RESULTS_PATH.exists():
+        with open(RESULTS_PATH, encoding="utf-8") as f:
+            existing_results = json.load(f)
+    existing_results.update(results)
     with open(RESULTS_PATH, "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=2)
+        json.dump(existing_results, f, indent=2)
 
     print(f"{'Method':<22} {'Split':<6} {'Top-1':<8} {'Top-3':<8} {'MRR':<8}")
     for method, splits in results.items():

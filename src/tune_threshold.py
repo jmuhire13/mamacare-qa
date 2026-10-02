@@ -4,10 +4,11 @@ the app refuses rather than guess.
 
 Uses the PRETRAINED model (never fine-tuned), not the fine-tuned retriever,
 to make this accept/refuse decision. This is a deliberate choice based on a
-direct comparison (see docs/WORK_LOG.md): fine-tuning made retrieval more
-accurate but also made its confidence scores less reliable at telling real
-maternal-health questions apart from other health-adjacent topics (hair
-loss, sports injuries, etc.) - the pretrained model is a better judge of
+direct comparison between the two models' confidence scores: fine-tuning
+made retrieval more accurate but also made its confidence scores less
+reliable at telling real maternal-health questions apart from other
+health-adjacent topics (hair loss, sports injuries, etc.) - the pretrained
+model is a better judge of
 "is this even in-domain," even though the fine-tuned model is better at
 picking the exact right answer once that gate says yes. app.py uses the
 pretrained model for this gate decision and the fine-tuned model separately
@@ -24,7 +25,7 @@ The off-topic calibration set is deliberately larger than it first was: the
 original 18 hand-written probes were mostly easy (unrelated topics like
 "capital of France"), and a proper held-out test later showed the threshold
 they produced only reached ~50% refusal on harder, health-adjacent
-questions (hair loss, seasonal allergies, etc. - see docs/WORK_LOG.md).
+questions (hair loss, seasonal allergies, etc.).
 Calibrating against `data/out_of_domain_calibration.json` (58 harder
 questions) as well fixes this - confirmed by checking the resulting
 threshold against a completely separate 59-question held-out set that this

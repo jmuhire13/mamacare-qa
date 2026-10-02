@@ -11,8 +11,9 @@ reasonable job when it's given the right source material - the baseline
 for Experiment 6, which fine-tunes the same model with LoRA.
 
 Evaluated with ROUGE-L (word-overlap with the reference answer) and
-BERTScore (meaning-based similarity) - see docs/LEARNING_NOTES.md for why
-both are used together rather than either alone.
+BERTScore (meaning-based similarity), used together rather than either
+alone: ROUGE-L catches exact wording matches, BERTScore catches correct
+answers phrased differently, and each covers the other's blind spot.
 
 Run with: python src/generate_zeroshot.py
 """

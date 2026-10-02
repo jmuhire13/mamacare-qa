@@ -13,9 +13,14 @@ This trains with a plain PyTorch loop instead of the library's usual
 convenience method (model.fit()), because on this machine the newer
 sentence-transformers version routes .fit() through the `datasets` library,
 and loading torch + scikit-learn + datasets together crashes Python outright
-(a native-library conflict, confirmed by isolating each import separately -
-see docs/WORK_LOG.md). Writing the training step by hand avoids the `datasets`
-import entirely while doing exactly the same computation.
+with a native-library conflict, confirmed by isolating each import
+separately - merely having `datasets` installed is enough to trigger it,
+even if this script never imports it. Writing the training step by hand
+avoids the `datasets` import entirely while computing the same loss
+(MultipleNegativesRankingLoss, scale 20, the library default). It does not
+replicate .fit()'s default learning-rate warmup, weight decay, or gradient
+clipping - a deliberate simplification given this dataset's small size, not
+an unexamined difference.
 
 Output: a fine-tuned model saved to models/finetuned-retriever/ (gitignored;
 this gets pushed to Hugging Face Hub later instead of committed to GitHub).

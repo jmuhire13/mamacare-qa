@@ -3,12 +3,16 @@ pandas
 numpy
 
 # Baseline and fine-tuned retrieval
+# sentence-transformers and torch are pinned because the retriever
+# fine-tuning step (src/finetune_retriever.py) crashes on this machine if
+# the `datasets` library is anywhere in the environment, even unimported -
+# these exact versions are confirmed to work without it.
 scikit-learn
 rank-bm25
-sentence-transformers
+sentence-transformers==6.1.0
 
 # Answer generation model + efficient fine-tuning
-torch
+torch==2.14.0
 transformers
 peft
 accelerate

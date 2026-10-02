@@ -14,7 +14,7 @@ small cost in flexibility compared to fine-tuning everything.
 Trains with a plain PyTorch loop (not the Hugging Face Trainer class),
 for the same reason finetune_retriever.py does: Trainer routes through the
 `datasets` library on this machine, which conflicts with torch+scikit-learn
-and crashes (see docs/WORK_LOG.md for the full story).
+and crashes.
 
 Run with: python src/finetune_generator.py
 """
