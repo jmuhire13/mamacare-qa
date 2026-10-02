@@ -1,0 +1,7 @@
+{
+  "threshold": 0.495,
+  "in_domain_accept_rate": 0.93,
+  "off_topic_reject_rate": 0.934,
+  "gate_model": "all-MiniLM-L6-v2",
+  "note": "accept rate here means 'gate did not refuse', not 'answer given was correct' - see out_of_domain_test.py for the true correctness breakdown"
+}

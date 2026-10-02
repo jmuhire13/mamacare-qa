@@ -140,7 +140,7 @@ python src/split_out_of_domain_set.py
 python src/out_of_domain_test.py
 
 # 9. Launch the app locally
-python app.py
+streamlit run app.py
 ```
 
 Each stage's output has a matching test script in `tests/`. Run any of them with `python tests/test_<name>.py` to confirm the pipeline reproduced correctly.

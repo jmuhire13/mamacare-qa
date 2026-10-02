@@ -22,7 +22,7 @@ rouge-score
 bert-score
 
 # Web deployment
-gradio
+streamlit
 
 # Pushing/pulling models from Hugging Face Hub
 huggingface-hub

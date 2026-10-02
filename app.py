@@ -14,19 +14,28 @@ even in-domain," even though it's worse at picking the exact right answer
 once it agrees to attempt one. Using each model for the job it is better
 at measurably beats using either model alone for both jobs.
 
-Run with: python app.py
-Then open the local URL it prints (usually http://127.0.0.1:7860).
+Run with: streamlit run app.py
+Then open the local URL it prints (usually http://localhost:8501).
 """
 
 import json
 from pathlib import Path
 
-import gradio as gr
+import streamlit as st
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
 GATE_MODEL_NAME = "all-MiniLM-L6-v2"  # pretrained, decides whether to answer at all
-RETRIEVAL_MODEL_DIR = Path("models/finetuned-retriever")  # fine-tuned, decides which answer
+
+# Uses the local model folder when it exists (after running finetune_retriever.py
+# yourself), and falls back to the Hugging Face Hub copy otherwise - the deployed
+# app has no local models/ folder, only the Hub repo.
+LOCAL_RETRIEVAL_MODEL_DIR = Path("models/finetuned-retriever")
+HUB_RETRIEVAL_MODEL_ID = "jmuhire13/mamacare-qa-retriever"
+RETRIEVAL_MODEL_SOURCE = (
+    str(LOCAL_RETRIEVAL_MODEL_DIR) if LOCAL_RETRIEVAL_MODEL_DIR.exists() else HUB_RETRIEVAL_MODEL_ID
+)
+
 DATA_DIR = Path("data/processed")
 THRESHOLD_PATH = Path("data/processed/refusal_threshold.json")
 
@@ -38,7 +47,7 @@ REFUSAL_MESSAGE = (
 
 DISCLAIMER = (
     "This assistant answers from a reviewed set of maternal health Q&A. "
-    "It is not a substitute for medical advice - always consult a qualified "
+    "It is not a substitute for medical advice. Always consult a qualified "
     "health worker for your specific situation."
 )
 
@@ -61,47 +70,57 @@ def load_threshold():
         return json.load(f)["threshold"]
 
 
-print("Loading gate model (pretrained), retrieval model (fine-tuned), and knowledge base...")
-gate_model = SentenceTransformer(GATE_MODEL_NAME)
-retrieval_model = SentenceTransformer(str(RETRIEVAL_MODEL_DIR))
-kb_questions, kb_answers = load_knowledge_base()
-gate_kb_embeddings = gate_model.encode(kb_answers, normalize_embeddings=True)
-retrieval_kb_embeddings = retrieval_model.encode(kb_answers, normalize_embeddings=True)
-threshold = load_threshold()
-print(f"Ready. Knowledge base: {len(kb_answers)} answers. Refusal threshold: {threshold}")
+# Streamlit re-runs this whole script on every interaction, so without
+# caching, both models would reload from scratch on every single question.
+@st.cache_resource(show_spinner="Loading models and knowledge base...")
+def load_resources():
+    gate_model = SentenceTransformer(GATE_MODEL_NAME)
+    retrieval_model = SentenceTransformer(RETRIEVAL_MODEL_SOURCE)
+    kb_questions, kb_answers = load_knowledge_base()
+    gate_kb_embeddings = gate_model.encode(kb_answers, normalize_embeddings=True)
+    retrieval_kb_embeddings = retrieval_model.encode(kb_answers, normalize_embeddings=True)
+    threshold = load_threshold()
+    return {
+        "gate_model": gate_model,
+        "retrieval_model": retrieval_model,
+        "kb_questions": kb_questions,
+        "kb_answers": kb_answers,
+        "gate_kb_embeddings": gate_kb_embeddings,
+        "retrieval_kb_embeddings": retrieval_kb_embeddings,
+        "threshold": threshold,
+    }
 
 
-def answer_question(question):
+def answer_question(question, resources):
     if not question or not question.strip():
         return "Please type a question."
 
     # Step 1: should we even attempt an answer? Decided by the PRETRAINED
     # model, which is the better judge of "is this in-domain at all."
-    gate_embedding = gate_model.encode([question], normalize_embeddings=True)
-    gate_score = float(cosine_similarity(gate_embedding, gate_kb_embeddings)[0].max())
-    if gate_score < threshold:
+    gate_embedding = resources["gate_model"].encode([question], normalize_embeddings=True)
+    gate_score = float(cosine_similarity(gate_embedding, resources["gate_kb_embeddings"])[0].max())
+    if gate_score < resources["threshold"]:
         return REFUSAL_MESSAGE
 
     # Step 2: which answer? Decided by the FINE-TUNED model, which is more
     # accurate at picking the exact right answer once we've agreed to try.
-    retrieval_embedding = retrieval_model.encode([question], normalize_embeddings=True)
-    retrieval_similarities = cosine_similarity(retrieval_embedding, retrieval_kb_embeddings)[0]
+    retrieval_embedding = resources["retrieval_model"].encode([question], normalize_embeddings=True)
+    retrieval_similarities = cosine_similarity(retrieval_embedding, resources["retrieval_kb_embeddings"])[0]
     best_index = retrieval_similarities.argmax()
 
     # Shown so the user can judge the match themselves - at a measured 4/43
     # confidently-wrong rate, surfacing the matched question is the cheapest
     # way to make a mismatch visible instead of invisible.
-    matched_question = kb_questions[best_index]
-    return f"Matched to this question in the knowledge base:\n\"{matched_question}\"\n\n{kb_answers[best_index]}"
+    matched_question = resources["kb_questions"][best_index]
+    return f'Matched to this question in the knowledge base:\n"{matched_question}"\n\n{resources["kb_answers"][best_index]}'
 
 
-demo = gr.Interface(
-    fn=answer_question,
-    inputs=gr.Textbox(label="Your question", placeholder="e.g. Why do I feel tired during pregnancy?"),
-    outputs=gr.Textbox(label="Answer"),
-    title="Maternal Health Q&A Assistant",
-    description=DISCLAIMER,
-)
+st.set_page_config(page_title="Maternal Health Q&A Assistant")
+st.title("Maternal Health Q&A Assistant")
+st.caption(DISCLAIMER)
 
-if __name__ == "__main__":
-    demo.launch()
+resources = load_resources()
+
+question = st.text_input("Your question", placeholder="e.g. Why do I feel tired during pregnancy?")
+if question:
+    st.text(answer_question(question, resources))

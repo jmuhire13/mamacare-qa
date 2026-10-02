@@ -14,8 +14,17 @@ env/
 # Secrets (API keys, tokens) - none exist yet, excluded as a safety habit
 .env
 
-# Cleaned/derived data - regenerated deterministically by data_prep.py (seed 42)
-data/processed/
+# Cleaned/derived data - regenerated deterministically by data_prep.py (seed 42).
+# The four files below are committed anyway, since the deployed app reads them
+# directly and Streamlit Cloud deploys straight from this GitHub repo with no
+# separate upload step. Everything else data_prep.py and the later scripts
+# produce stays untracked, since it's all derived and reproducible from the
+# raw dataset.
+data/processed/*
+!data/processed/train.json
+!data/processed/val.json
+!data/processed/test.json
+!data/processed/refusal_threshold.json
 
 # Large model files - pushed to Hugging Face Hub instead, linked from README
 *.safetensors
