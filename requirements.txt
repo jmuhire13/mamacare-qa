@@ -1,5 +1,6 @@
-# Numerical computing
+# Numerical computing and figures
 numpy
+matplotlib
 
 # Baseline and fine-tuned retrieval
 # sentence-transformers and torch are pinned because the retriever

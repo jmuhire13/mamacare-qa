@@ -119,7 +119,10 @@ python src/evaluate_generator.py
 python tests/test_generation.py
 python src/analyze_generation_outputs.py
 
-# 13. Run the app locally
+# 13. Draw the three report figures from the saved results (written to results/)
+python src/make_figures.py
+
+# 14. Run the app locally
 streamlit run app.py
 ```
 

@@ -22,6 +22,7 @@ GATE_MODEL_NAME = "all-MiniLM-L6-v2"
 RETRIEVAL_MODEL_DIR = Path("models/finetuned-retriever")
 OOD_CALIBRATION_PATH = Path("data/out_of_domain_calibration.json")
 OOD_HELDOUT_PATH = Path("data/out_of_domain_heldout.json")
+RESULTS_DIR = Path("results")
 
 
 ORIGINAL_18_PROBES = [
@@ -128,6 +129,7 @@ def main():
 
     calibration_off_topic_texts = ORIGINAL_18_PROBES + ood_calibration
 
+    saved_scores = {}
     for name, score_fn in designs.items():
         # Calibrate: val (in-domain) + 18 probes + 58 calibration OOD questions.
         val_scores = [score_fn(item["question"], exclude_index=val_offset + i) for i, item in enumerate(val)]
@@ -146,6 +148,11 @@ def main():
         labels = [1] * len(test_scores) + [0] * len(heldout_scores)
         scores = test_scores + heldout_scores
         auroc = roc_auc_score(labels, scores)
+        saved_scores[name] = {
+            "threshold": threshold,
+            "test_scores": [float(s) for s in test_scores],
+            "heldout_scores": [float(s) for s in heldout_scores],
+        }
 
         print(f"--- {name} ---")
         print(f"  Recalibrated threshold: {threshold}")
@@ -155,6 +162,11 @@ def main():
         auroc_low, auroc_high = bootstrap_auroc_interval(labels, scores)
         print(f"  AUROC (test vs held-out): {auroc:.3f}, bootstrap 95% CI [{auroc_low:.4f}, {auroc_high:.4f}]")
         print()
+
+    RESULTS_DIR.mkdir(exist_ok=True)
+    with open(RESULTS_DIR / "design_scores.json", "w", encoding="utf-8") as f:
+        json.dump(saved_scores, f, indent=2)
+    print(f"Saved per-question scores to {RESULTS_DIR / 'design_scores.json'}")
 
 
 if __name__ == "__main__":

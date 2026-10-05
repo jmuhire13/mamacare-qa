@@ -1,0 +1,19 @@
+--- A: single fine-tuned signal ---
+  Recalibrated threshold: 0.56
+  In-domain TEST accept rate: 38/43 (88.4%)
+  Held-out OOD refusal: 55/59 (93.2%), 95% CI [83.8%, 97.3%]
+  AUROC (test vs held-out): 0.964, bootstrap 95% CI [0.9274, 0.9912]
+
+--- B: fine-tuned, two-signal ---
+  Recalibrated threshold: 0.515
+  In-domain TEST accept rate: 27/43 (62.8%)
+  Held-out OOD refusal: 54/59 (91.5%), 95% CI [81.6%, 96.3%]
+  AUROC (test vs held-out): 0.918, bootstrap 95% CI [0.8609, 0.9626]
+
+--- C: hybrid (pretrained gate) ---
+  Recalibrated threshold: 0.495
+  In-domain TEST accept rate: 40/43 (93.0%)
+  Held-out OOD refusal: 53/59 (89.8%), 95% CI [79.5%, 95.3%]
+  AUROC (test vs held-out): 0.984, bootstrap 95% CI [0.9631, 0.9976]
+
+Saved per-question scores to results\design_scores.json

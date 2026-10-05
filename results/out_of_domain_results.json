@@ -1,0 +1,38 @@
+{
+  "threshold": 0.495,
+  "in_domain_test": {
+    "n": 43,
+    "true_positive": 36,
+    "confidently_wrong": 4,
+    "confidently_wrong_questions": [
+      "Why do I have sharp pains in the stomach?",
+      "What techniques can help manage childbirth pain, and how do they work?",
+      "Can I have a vaginal delivery after a C-section?",
+      "Why do I have back pain?"
+    ],
+    "refused_wouldve_been_right": 0,
+    "refused_correctly": 3,
+    "true_accuracy": 0.837,
+    "true_accuracy_95ci": [
+      0.7,
+      0.919
+    ]
+  },
+  "out_of_domain": {
+    "n": 59,
+    "correctly_refused": 53,
+    "refusal_rate": 0.898,
+    "refusal_rate_95ci": [
+      0.795,
+      0.953
+    ],
+    "wrongly_answered": [
+      "What's a good bedtime routine for a 5-year-old?",
+      "What are the health benefits of drinking green tea?",
+      "What causes acid reflux and heartburn in general?",
+      "What vitamins are good for building muscle?",
+      "What are good exercises for lower back pain?",
+      "How do I clean a cast iron pan?"
+    ]
+  }
+}

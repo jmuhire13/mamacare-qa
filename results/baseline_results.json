@@ -1,0 +1,58 @@
+{
+  "tfidf": {
+    "val": {
+      "top_1": 0.674,
+      "top_3": 0.791,
+      "mrr": 0.739,
+      "n_queries": 43
+    },
+    "test": {
+      "top_1": 0.698,
+      "top_3": 0.767,
+      "mrr": 0.747,
+      "n_queries": 43
+    }
+  },
+  "bm25": {
+    "val": {
+      "top_1": 0.628,
+      "top_3": 0.814,
+      "mrr": 0.72,
+      "n_queries": 43
+    },
+    "test": {
+      "top_1": 0.674,
+      "top_3": 0.744,
+      "mrr": 0.733,
+      "n_queries": 43
+    }
+  },
+  "pretrained_embeddings": {
+    "val": {
+      "top_1": 0.86,
+      "top_3": 0.953,
+      "mrr": 0.907,
+      "n_queries": 43
+    },
+    "test": {
+      "top_1": 0.791,
+      "top_3": 0.884,
+      "mrr": 0.853,
+      "n_queries": 43
+    }
+  },
+  "finetuned_embeddings": {
+    "val": {
+      "top_1": 0.837,
+      "top_3": 0.953,
+      "mrr": 0.903,
+      "n_queries": 43
+    },
+    "test": {
+      "top_1": 0.837,
+      "top_3": 0.953,
+      "mrr": 0.901,
+      "n_queries": 43
+    }
+  }
+}

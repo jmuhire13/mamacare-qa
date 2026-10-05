@@ -1,0 +1,15 @@
+Training questions: gold answer in top 3: 344/344; at rank 1: 327/344
+Exact verbatim copies of a retrieved passage: 40/43
+Near-verbatim copies (ROUGE-L of 0.95 or more against the nearest passage): 40/43
+Passage position copied in exact copies: {1: 39, 2: 1}
+
+Low-scoring test cases (LoRA ROUGE-L below 0.3):
+  rank of gold=3, copied position=1, ROUGE-L=0.12: Why do I have a low or sad mood?
+  rank of gold=4, copied position=1, ROUGE-L=0.119: Why do I have sharp pains in the stomach?
+  rank of gold=2, copied position=1, ROUGE-L=0.139: What techniques can help manage childbirth pain, and how do they work?
+  rank of gold=2, copied position=1, ROUGE-L=0.062: Can I have a vaginal delivery after a C-section?
+  rank of gold=1, copied position=2, ROUGE-L=0.074: What is the function of the clitoris?
+  rank of gold=2, copied position=1, ROUGE-L=0.201: Why do I have back pain?
+  rank of gold=6, copied position=1, ROUGE-L=0.144: What are the chances of my baby getting HIV if I am HIV positive?
+Groups: {'gold in top 3, not first': 4, 'gold outside top 3': 2, 'gold first, different passage copied': 1}
+Test cases where gold ranks 2nd or 3rd: 5; model copied the first passage in 5 of them

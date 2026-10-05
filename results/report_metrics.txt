@@ -1,0 +1,13 @@
+Retrieval, test split (43 questions, all 430 answers as candidates)
+Method                     Top-1        Top-1 95% CI  Recall@5  Recall@5 count
+TF-IDF                  30/ 43      [0.549, 0.814]     0.791           34/43
+BM25                    29/ 43      [0.525, 0.795]     0.814           35/43
+Pretrained embeddings   34/ 43      [0.648, 0.886]     0.930           40/43
+Fine-tuned embeddings   36/ 43      [0.700, 0.919]     0.977           42/43
+
+Paired comparison, Top-1: fine-tuned fixed 3, broke 1, both correct 33, both wrong 6
+Sign test on the 4 disagreeing questions (two-sided exact binomial): p = 0.6250
+BM25 with length normalization disabled (b = 0): Top-1 25/43
+
+Hybrid gate AUROC (test 43 vs held-out 59): 0.9842
+Bootstrap 95% interval (2000 resamples, seed 42): [0.9631, 0.9976]

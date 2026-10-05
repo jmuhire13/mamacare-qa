@@ -1,0 +1,13 @@
+  from sentence_transformers import SentenceTransformer, losses
+The `tokenize` method is deprecated, please use `preprocess` instead.
+seed 1 epoch 1/8, average loss: 0.0704
+seed 1 epoch 2/8, average loss: 0.0237
+seed 1 epoch 3/8, average loss: 0.0152
+seed 1 epoch 4/8, average loss: 0.0211
+seed 1 epoch 5/8, average loss: 0.0067
+seed 1 epoch 6/8, average loss: 0.0077
+seed 1 epoch 7/8, average loss: 0.0077
+seed 1 epoch 8/8, average loss: 0.0071
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|##########| 1/1 [00:00<00:00,  2.23it/s]Writing model shards: 100%|##########| 1/1 [00:00<00:00,  2.23it/s]
+RESULT seed=1 val={'top_1': 0.837, 'top_3': 0.953, 'mrr': 0.897, 'n_queries': 43}
+RESULT seed=1 test={'top_1': 0.837, 'top_3': 0.93, 'mrr': 0.896, 'n_queries': 43}

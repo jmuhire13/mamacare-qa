@@ -1,0 +1,217 @@
+[
+  {
+    "index": 1,
+    "question": "What types of skin spots are common in newborns, and how should parents react to them?",
+    "label": "faithful"
+  },
+  {
+    "index": 2,
+    "question": "Why is it necessary to take vitamin and mineral supplements during pregnancy? What should a prenatal multivitamin contain?",
+    "label": "faithful"
+  },
+  {
+    "index": 3,
+    "question": "Should you sleep with your baby? What are the risks of sleeping with your baby on certain surfaces or when you're impaired? How can you safely share your bed with your baby?",
+    "label": "faithful"
+  },
+  {
+    "index": 4,
+    "question": "When can you start using contraceptive implants after childbirth if there are no contraindications?",
+    "label": "faithful"
+  },
+  {
+    "index": 5,
+    "question": "When can you start using a hormonal IUD after childbirth if there are no contraindications?",
+    "label": "faithful"
+  },
+  {
+    "index": 6,
+    "question": "When is it possible to start using a copper IUD after childbirth, provided there are no contraindications?",
+    "label": "faithful"
+  },
+  {
+    "index": 7,
+    "question": "what is  Immune system",
+    "label": "partly unsupported"
+  },
+  {
+    "index": 8,
+    "question": "Why do I have a low or sad mood?",
+    "label": "contradicting or invented"
+  },
+  {
+    "index": 9,
+    "question": "What happens during the first trimester?",
+    "label": "faithful"
+  },
+  {
+    "index": 10,
+    "question": "Why is creating a supportive environment important during childbirth, and how can it be achieved?",
+    "label": "faithful"
+  },
+  {
+    "index": 11,
+    "question": "What should pregnant women know about Rubella?",
+    "label": "faithful"
+  },
+  {
+    "index": 12,
+    "question": "When do men produce sperm, and how long does it last?",
+    "label": "partly unsupported"
+  },
+  {
+    "index": 13,
+    "question": "What blood tests and urine analyses might be prescribed during pregnancy? What are they used to determine?",
+    "label": "faithful"
+  },
+  {
+    "index": 14,
+    "question": "How can flat head syndrome be prevented in infants? What happens if a baby develops a flat head?",
+    "label": "partly unsupported"
+  },
+  {
+    "index": 15,
+    "question": "When can you start using the progestin-only pill after childbirth, and are there any restrictions?",
+    "label": "faithful"
+  },
+  {
+    "index": 16,
+    "question": "What is the purpose of neonatal screening, and what types of screenings are done? How are blood and urine screenings performed for newborns?",
+    "label": "faithful"
+  },
+  {
+    "index": 17,
+    "question": "What is the average size and weight of a full-term baby, and why does a baby lose weight after birth?",
+    "label": "faithful"
+  },
+  {
+    "index": 18,
+    "question": "what is  Uterine rupture",
+    "label": "contradicting or invented"
+  },
+  {
+    "index": 19,
+    "question": "What happens if your baby is in a breech position, and what are the options for delivery? Can your doctor help turn the baby, and what happens if vaginal birth is not possible?",
+    "label": "faithful"
+  },
+  {
+    "index": 20,
+    "question": "Why do I have sharp pains in the stomach?",
+    "label": "faithful"
+  },
+  {
+    "index": 21,
+    "question": "What positions can help during labour, and how do they support the birthing process?",
+    "label": "faithful"
+  },
+  {
+    "index": 22,
+    "question": "What is the significance of losing amniotic fluid during pregnancy, and what should you do if it happens? How can you tell if it’s amniotic fluid, and what does it mean if your waters break before or after 37 weeks?",
+    "label": "faithful"
+  },
+  {
+    "index": 23,
+    "question": "What is the function of the Fallopian tubes?",
+    "label": "faithful"
+  },
+  {
+    "index": 24,
+    "question": "What is the ovulation or fertile period, and how does it affect fertilization chances?",
+    "label": "faithful"
+  },
+  {
+    "index": 25,
+    "question": "When can I have sex after vaginal stitches post-delivery?",
+    "label": "faithful"
+  },
+  {
+    "index": 26,
+    "question": "Are hot sweats normal during pregnancy?",
+    "label": "faithful"
+  },
+  {
+    "index": 27,
+    "question": "How do I know that I am in labor?",
+    "label": "faithful"
+  },
+  {
+    "index": 28,
+    "question": "What is an ultrasound used for during pregnancy? What information can it provide and can it reveal the baby's sex?",
+    "label": "partly unsupported"
+  },
+  {
+    "index": 29,
+    "question": "What techniques can help manage childbirth pain, and how do they work?",
+    "label": "faithful"
+  },
+  {
+    "index": 30,
+    "question": "What should I do if I forget my child's immunization appointment?",
+    "label": "contradicting or invented"
+  },
+  {
+    "index": 31,
+    "question": "How to promote successful breastfeeding right after birth.",
+    "label": "faithful"
+  },
+  {
+    "index": 32,
+    "question": "How do nightmares and night terrors differ? How should parents respond to each? When do these issues typically resolve?",
+    "label": "partly unsupported"
+  },
+  {
+    "index": 33,
+    "question": "What is the normal time for a bowel movement after delivery? What can you do if you experience constipation postpartum?",
+    "label": "faithful"
+  },
+  {
+    "index": 34,
+    "question": "Can I have a vaginal delivery after a C-section?",
+    "label": "faithful"
+  },
+  {
+    "index": 35,
+    "question": "What should you expect from your baby's stools, and when should you be concerned?",
+    "label": "faithful"
+  },
+  {
+    "index": 36,
+    "question": "what is diaper rash",
+    "label": "contradicting or invented"
+  },
+  {
+    "index": 37,
+    "question": "What happens when a man ejaculates?",
+    "label": "faithful"
+  },
+  {
+    "index": 38,
+    "question": "What is the function of the clitoris?",
+    "label": "contradicting or invented"
+  },
+  {
+    "index": 39,
+    "question": "How accurate is an ultrasound in determining the due date?",
+    "label": "faithful"
+  },
+  {
+    "index": 40,
+    "question": "Why do babies cry excessively, and what can you do?",
+    "label": "contradicting or invented"
+  },
+  {
+    "index": 41,
+    "question": "Why do I have back pain?",
+    "label": "faithful"
+  },
+  {
+    "index": 42,
+    "question": "What are the chances of my baby getting HIV if I am HIV positive?",
+    "label": "contradicting or invented"
+  },
+  {
+    "index": 43,
+    "question": "How should a mother recover after a caesarean? What should be done for pain relief and incision care? When can a mother resume activities after a caesarean?",
+    "label": "faithful"
+  }
+]

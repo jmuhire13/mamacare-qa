@@ -1,0 +1,307 @@
+{
+  "average_rougeL": 0.864,
+  "average_bertscore_f1": 0.977,
+  "examples": [
+    {
+      "question": "What types of skin spots are common in newborns, and how should parents react to them?",
+      "reference_answer": "Newborns may have small red spots between their eyes, on the eyelids, or along the back of the scalp, which turn white when lightly pressed and become more visible when the baby cries. These spots typically disappear within the first year. Additionally, some babies may have bluish spots on their buttocks or back, which usually fade by age 3. Other marks may be permanent, but there\u2019s no need for concern with these temporary spots.",
+      "generated_answer": "Newborns may have small red spots between their eyes, on the eyelids, or along the back of the scalp, which turn white when lightly pressed and become more visible when the baby cries. These spots typically disappear within the first year. Additionally, some babies may have bluish spots on their buttocks or back, which usually fade by age 3. Other marks may be permanent, but there\u2019s no need for concern with these temporary spots.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "Why is it necessary to take vitamin and mineral supplements during pregnancy? What should a prenatal multivitamin contain?",
+      "reference_answer": "During pregnancy, the body's need for certain nutrients, such as iron and folic acid, significantly increases. While food is the best source of nutrients, it can be difficult to meet the required intake for these nutrients through diet alone. Therefore, it is recommended to take a prenatal multivitamin that includes 0.4 mg of folic acid and 16 to 20 mg of iron. It is suggested to begin taking the multivitamin two to three months before pregnancy and continue throughout pregnancy and postpartum. Some women\u2019s needs may vary, so consulting a healthcare professional for personalized recommendations is essential.",
+      "generated_answer": "During pregnancy, the body's need for certain nutrients, such as iron and folic acid, significantly increases. While food is the best source of nutrients, it can be difficult to meet the required intake for these nutrients through diet alone. Therefore, it is recommended to take a prenatal multivitamin that includes 0.4 mg of folic acid and 16 to 20 mg of iron. It is suggested to begin taking the multivitamin two to three months before pregnancy and continue throughout pregnancy and postpartum. Some women\u2019s needs may vary, so consulting a healthcare professional for personalized recommendations is essential.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "Should you sleep with your baby? What are the risks of sleeping with your baby on certain surfaces or when you're impaired? How can you safely share your bed with your baby?",
+      "reference_answer": "It\u2019s not recommended to sleep with your baby, especially on couches or furniture like upholstered chairs, or if you\u2019ve been drinking, taking medication that makes you drowsy, or are extremely tired. In these situations, it\u2019s safer for your baby to sleep in her crib in your room. To safely share your bed, always place your baby on her back, use a firm mattress, remove soft bedding, and ensure there is enough space between the mattress and wall to prevent the baby from getting stuck. Never let your baby sleep alone in an adult bed.",
+      "generated_answer": "It\u2019s not recommended to sleep with your baby, especially on couches or furniture like upholstered chairs, or if you\u2019ve been drinking, taking medication that makes you drowsy, or are extremely tired. In these situations, it\u2019s safer for your baby to sleep in her crib in your room. To safely share your bed, always place your baby on her back, use a firm mattress, remove soft bedding, and ensure there is enough space between the mattress and wall to prevent the baby from getting stuck. Never let your baby sleep alone in an adult bed.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "When can you start using contraceptive implants after childbirth if there are no contraindications?",
+      "reference_answer": "You can start using contraceptive implants at any time after giving birth, depending on your state of health, as long as there are no contraindications.",
+      "generated_answer": "You can start using contraceptive implants at any time after giving birth, depending on your state of health, as long as there are no contraindications.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "When can you start using a hormonal IUD after childbirth if there are no contraindications?",
+      "reference_answer": "You can start using a hormonal IUD at any time after giving birth, depending on your state of health, as long as there are no contraindications.",
+      "generated_answer": "You can start using a hormonal IUD at any time after giving birth, depending on your state of health, as long as there are no contraindications.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "When is it possible to start using a copper IUD after childbirth, provided there are no contraindications?",
+      "reference_answer": "You can start using a copper IUD at any time after giving birth, depending on your state of health, as long as there are no contraindications.",
+      "generated_answer": "You can start using a copper IUD at any time after giving birth, depending on your state of health, as long as there are no contraindications.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "what is  Immune system",
+      "reference_answer": "Organs and mechanisms that allow the body \r\nto fight against infections.",
+      "generated_answer": "Substances made by the body to fight off disease. \r\nAlso called immunoglobulins",
+      "rougeL": 0.348,
+      "bertscore_f1": 0.882
+    },
+    {
+      "question": "Why do I have a low or sad mood?",
+      "reference_answer": "Some women experience depression during or after pregnancy. When many of these symptoms occur together and last for more than a week or two at a time, it is probably depression. It is important that the mother visits a health care provider.",
+      "generated_answer": "After a miscarriage or ectopic pregnancy, it is normal to feel sad, distressed, and go through a period of mourning. Emotions such as anger, denial, and confusion are common, and some women may even feel guilty, wrongly believing they caused the loss. However, miscarriage is not caused by stress, fatigue, physical activity, diet, or lifting heavy objects. If you're concerned about future pregnancies, it's helpful to discuss these concerns with your health professional.",
+      "rougeL": 0.12,
+      "bertscore_f1": 0.864
+    },
+    {
+      "question": "What happens during the first trimester?",
+      "reference_answer": "In the first trimester, from conception to 14 weeks, the embryo undergoes significant development. At 5 weeks, the heart starts to beat. By 7 weeks, the head is larger than the rest of the body, arms and fingers begin to form, and eyes become visible. By 10 weeks, the embryo looks more human, with distinguishable facial features and forming toes and fingers. At this stage, the embryo is now a fetus, with all body parts in place but still growing and developing.",
+      "generated_answer": "In the first trimester, from conception to 14 weeks, the embryo undergoes significant development. At 5 weeks, the heart starts to beat. By 7 weeks, the head is larger than the rest of the body, arms and fingers begin to form, and eyes become visible. By 10 weeks, the embryo looks more human, with distinguishable facial features and forming toes and fingers. At this stage, the embryo is now a fetus, with all body parts in place but still growing and developing.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "Why is creating a supportive environment important during childbirth, and how can it be achieved?",
+      "reference_answer": "Creating a supportive environment during childbirth is vital as it helps women feel calm, safe, and confident, promoting the secretion of hormones essential for labor. This can be achieved by dimming the lights, reducing ambient noise, lowering monitor volumes, and encouraging people to whisper, ensuring a tranquil and reassuring atmosphere.",
+      "generated_answer": "Creating a supportive environment during childbirth is vital as it helps women feel calm, safe, and confident, promoting the secretion of hormones essential for labor. This can be achieved by dimming the lights, reducing ambient noise, lowering monitor volumes, and encouraging people to whisper, ensuring a tranquil and reassuring atmosphere.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What should pregnant women know about Rubella?",
+      "reference_answer": "Rubella (German measles) is rare in Qu\u00e9bec due to widespread vaccination. However, if a pregnant woman contracts rubella, it can lead to serious complications for both the pregnancy and the fetus, including birth defects. If you suspect you've been exposed to someone with rubella, it's important to consult a doctor for evaluation and potential testing.",
+      "generated_answer": "Rubella (German measles) is rare in Qu\u00e9bec due to widespread vaccination. However, if a pregnant woman contracts rubella, it can lead to serious complications for both the pregnancy and the fetus, including birth defects. If you suspect you've been exposed to someone with rubella, it's important to consult a doctor for evaluation and potential testing.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "When do men produce sperm, and how long does it last?",
+      "reference_answer": "Men produce sperm starting at puberty, and sperm production continues throughout their lives until death.",
+      "generated_answer": "Men produce sperm starting at puberty, and sperm production continues throughout their lives until death.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What blood tests and urine analyses might be prescribed during pregnancy? What are they used to determine?",
+      "reference_answer": "During your prenatal appointments, blood tests and urine analyses may be prescribed to check for anemia, monitor your blood sugar levels, screen for diseases like syphilis, HIV/AIDS, and hepatitis B, and determine your blood type and rhesus (Rh) factor. If you are Rh negative, precautions such as administering anti-Rh immunoglobulin may be taken. Tests will also check for rubella antibodies, bacteria or protein in your urine, and screen for gestational diabetes between 24 and 28 weeks. Additional tests may be suggested depending on your condition.",
+      "generated_answer": "During your prenatal appointments, blood tests and urine analyses may be prescribed to check for anemia, monitor your blood sugar levels, screen for diseases like syphilis, HIV/AIDS, and hepatitis B, and determine your blood type and rhesus (Rh) factor. If you are Rh negative, precautions such as administering anti-Rh immunoglobulin may be taken. Tests will also check for rubella antibodies, bacteria or protein in your urine, and screen for gestational diabetes between 24 and 28 weeks. Additional tests may be suggested depending on your condition.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "How can flat head syndrome be prevented in infants? What happens if a baby develops a flat head?",
+      "reference_answer": "Flat head syndrome, or positional plagiocephaly, can occur if a baby remains in the same position, such as in a crib or car seat, for long periods. To prevent this, it\u2019s important to vary the baby's position while awake, as the bones of their skull are still soft and can flatten with pressure. A slight flattening usually disappears on its own, while more pronounced flatness may become permanent, though it won't affect the baby\u2019s brain or development.",
+      "generated_answer": "Flat head syndrome, or positional plagiocephaly, can occur if a baby remains in the same position, such as in a crib or car seat, for long periods. To prevent this, it\u2019s important to vary the baby's position while awake, as the bones of their skull are still soft and can flatten with pressure. A slight flattening usually disappears on its own, while more pronounced flatness may become permanent, though it won't affect the baby\u2019s brain or development.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "When can you start using the progestin-only pill after childbirth, and are there any restrictions?",
+      "reference_answer": "You can start using the progestin-only pill any time after giving birth, as there are no specific restrictions, assuming no contraindications.",
+      "generated_answer": "You can start using the progestin-only pill any time after giving birth, as there are no specific restrictions, assuming no contraindications.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What is the purpose of neonatal screening, and what types of screenings are done? How are blood and urine screenings performed for newborns?",
+      "reference_answer": "Neonatal screening aims to detect rare diseases that are not apparent at birth but can pose serious health risks. Early detection allows for treatment before symptoms appear, preventing severe complications. Blood screening is done within a few days of birth by taking a few drops of blood from the baby's heel. Urine screening is performed when the baby is 21 days old, and parents are given a kit and instructions to collect a small quantity of urine during their hospital or birthing centre stay.",
+      "generated_answer": "Neonatal screening aims to detect rare diseases that are not apparent at birth but can pose serious health risks. Early detection allows for treatment before symptoms appear, preventing severe complications. Blood screening is done within a few days of birth by taking a few drops of blood from the baby's heel. Urine screening is performed when the baby is 21 days old, and parents are given a kit and instructions to collect a small quantity of urine during their hospital or birthing centre stay.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What is the average size and weight of a full-term baby, and why does a baby lose weight after birth?",
+      "reference_answer": "A full-term baby, born between 37 and 42 weeks, typically measures 45 to 55 cm (18 to 21 inches) and weighs between 2,500 to 4,300 grams (5.5 to 9.5 lbs.). It is normal for a baby to lose up to 10% of their birth weight in the first few days due to the elimination of meconium, loss of water from being in the womb, and consuming only small amounts of milk. By 10 to 14 days after birth, a healthy full-term baby usually regains their birth weight.",
+      "generated_answer": "A full-term baby, born between 37 and 42 weeks, typically measures 45 to 55 cm (18 to 21 inches) and weighs between 2,500 to 4,300 grams (5.5 to 9.5 lbs.). It is normal for a baby to lose up to 10% of their birth weight in the first few days due to the elimination of meconium, loss of water from being in the womb, and consuming only small amounts of milk. By 10 to 14 days after birth, a healthy full-term baby usually regains their birth weight.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "what is  Uterine rupture",
+      "reference_answer": "Tearing of the uterine scar from a previous caesarean.",
+      "generated_answer": "Tearing of the uterine scar from a previous caesarean.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What happens if your baby is in a breech position, and what are the options for delivery? Can your doctor help turn the baby, and what happens if vaginal birth is not possible?",
+      "reference_answer": "If your baby is in a breech position, your doctor or midwife may attempt to turn the baby into a head-down position around 36 or 37 weeks using a procedure called version, which increases the chances of a vaginal birth. This procedure is performed in the hospital and followed by monitoring to ensure the baby tolerates it. If turning the baby isn't possible, a vaginal breech delivery may be considered, but it requires specific conditions and may not be offered in every hospital. In most cases, a cesarean section will be recommended. Always discuss your options with your healthcare provider.",
+      "generated_answer": "If your baby is in a breech position, your doctor or midwife may attempt to turn the baby into a head-down position around 36 or 37 weeks using a procedure called version, which increases the chances of a vaginal birth. This procedure is performed in the hospital and followed by monitoring to ensure the baby tolerates it. If turning the baby isn't possible, a vaginal breech delivery may be considered, but it requires specific conditions and may not be offered in every hospital. In most cases, a cesarean section will be recommended. Always discuss your options with your healthcare provider.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "Why do I have sharp pains in the stomach?",
+      "reference_answer": "Round ligament pain is one of the most common discomforts during pregnancy. The round ligaments are connective tissue cords that support the uterus on each side, connecting it to the groin and pubic region. As the uterus expands during pregnancy, these ligaments can stretch and spasm, causing sharp pains when you move.",
+      "generated_answer": "Intestinal cramps are characterized by pain throughout the abdomen, which can be caused by conditions like diarrhea or constipation. The discomfort typically comes from the intestines and is often associated with changes in bowel movements. Unlike other types of abdominal pain, intestinal cramps are usually linked to digestive issues.",
+      "rougeL": 0.119,
+      "bertscore_f1": 0.851
+    },
+    {
+      "question": "What positions can help during labour, and how do they support the birthing process?",
+      "reference_answer": "During labour, various positions can aid cervical dilation and promote relaxation. Standing, squatting, sitting on a physio ball, or kneeling on all fours with an upright upper body can help speed up labour. Lying flat on your back is often uncomfortable, but lying on your side can provide more relief if resting is needed. Trying different positions helps adapt to changing needs during labour and can make the process more effective and tolerable.",
+      "generated_answer": "During labour, various positions can aid cervical dilation and promote relaxation. Standing, squatting, sitting on a physio ball, or kneeling on all fours with an upright upper body can help speed up labour. Lying flat on your back is often uncomfortable, but lying on your side can provide more relief if resting is needed. Trying different positions helps adapt to changing needs during labour and can make the process more effective and tolerable.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What is the significance of losing amniotic fluid during pregnancy, and what should you do if it happens? How can you tell if it\u2019s amniotic fluid, and what does it mean if your waters break before or after 37 weeks?",
+      "reference_answer": "Loss of amniotic fluid can indicate the start of labor. If you suspect you are losing amniotic fluid, or if you are unsure, you should contact your midwife, birthing facility, or go to the hospital. If your waters break before 37 weeks, it poses a risk to the baby and requires immediate attention. If your waters break at or after 37 weeks, you should go to the hospital or birthing center to ensure proper care.",
+      "generated_answer": "Loss of amniotic fluid can indicate the start of labor. If you suspect you are losing amniotic fluid, or if you are unsure, you should contact your midwife, birthing facility, or go to the hospital. If your waters break before 37 weeks, it poses a risk to the baby and requires immediate attention. If your waters break at or after 37 weeks, you should go to the hospital or birthing center to ensure proper care.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What is the function of the Fallopian tubes?",
+      "reference_answer": "The Fallopian tubes connect the uterus and ovaries, transporting eggs and playing a crucial role in fertilization.",
+      "generated_answer": "The Fallopian tubes connect the uterus and ovaries, transporting eggs and playing a crucial role in fertilization.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What is the ovulation or fertile period, and how does it affect fertilization chances?",
+      "reference_answer": "The ovulation or fertile period is when a woman is most likely to ovulate. If intercourse occurs during this time, there\u2019s a one in four chance of fertilization at age 20, and one in twenty at age 40. An egg must be fertilized within 12 hours, or it is discharged, and menstruation begins.",
+      "generated_answer": "The ovulation or fertile period is when a woman is most likely to ovulate. If intercourse occurs during this time, there\u2019s a one in four chance of fertilization at age 20, and one in twenty at age 40. An egg must be fertilized within 12 hours, or it is discharged, and menstruation begins.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "When can I have sex after vaginal stitches post-delivery?",
+      "reference_answer": "It's generally advisable to wait 40 to 60 days for the stitched area to heal before resuming sexual intercourse.",
+      "generated_answer": "It's generally advisable to wait 40 to 60 days for the stitched area to heal before resuming sexual intercourse.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "Are hot sweats normal during pregnancy?",
+      "reference_answer": "During pregnancy, it's normal for your body temperature to rise slightly, leading to hot sweats. Sweating is your body's natural way of cooling down and regulating temperature to prevent overheating.",
+      "generated_answer": "During pregnancy, it's normal for your body temperature to rise slightly, leading to hot sweats. Sweating is your body's natural way of cooling down and regulating temperature to prevent overheating.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "How do I know that I am in labor?",
+      "reference_answer": "Signs that labor might be starting include contractions or tightening of the abdomen, a \"show\" where the mucus plug from your cervix comes away, backache, an urge to go to the toilet caused by pressure from the baby's head on your bowel, and your waters breaking. The early, latent stage of labor can take some time to progress fully.",
+      "generated_answer": "Signs that labor might be starting include contractions or tightening of the abdomen, a \"show\" where the mucus plug from your cervix comes away, backache, an urge to go to the toilet caused by pressure from the baby's head on your bowel, and your waters breaking. The early, latent stage of labor can take some time to progress fully.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What is an ultrasound used for during pregnancy? What information can it provide and can it reveal the baby's sex?",
+      "reference_answer": "An ultrasound during pregnancy is used to determine how far along you are, confirm your due date, and check that your baby is growing appropriately. It allows your health professional to examine your baby\u2019s organs, limbs, and confirm how many babies are present. It also helps determine the location of the placenta. Although it\u2019s often possible to identify the baby\u2019s sex, there is a slight risk of error. If you wish to keep the sex a surprise, be sure to inform the technician and doctor to prevent any misunderstandings.",
+      "generated_answer": "An ultrasound during pregnancy is used to determine how far along you are, confirm your due date, and check that your baby is growing appropriately. It allows your health professional to examine your baby\u2019s organs, limbs, and confirm how many babies are present. It also helps determine the location of the placenta. Although it\u2019s often possible to identify the baby\u2019s sex, there is a slight risk of error. If you wish to keep the sex a surprise, be sure to inform the technician and doctor to prevent any misunderstandings.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What techniques can help manage childbirth pain, and how do they work?",
+      "reference_answer": "To manage childbirth pain, you can use techniques such as movement and trying different positions. Moving, walking, squatting, or using a physio ball can help labor progress and provide relief by finding comfortable positions. Experimenting with these options at different stages of labor ensures you discover what works best for you.",
+      "generated_answer": "Additional techniques for managing childbirth pain include sterile water injections under the skin and TENS machines for electrical stimulation of painful areas; you can inquire about these options from your healthcare provider. If non-drug methods are no longer effective, pain relief through medication is a viable alternative to consider.",
+      "rougeL": 0.139,
+      "bertscore_f1": 0.865
+    },
+    {
+      "question": "What should I do if I forget my child's immunization appointment?",
+      "reference_answer": "As soon as you remember, take your child for the immunization.",
+      "generated_answer": "As soon as you remember, take your child for the immunization.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "How to promote successful breastfeeding right after birth.",
+      "reference_answer": "To make breastfeeding easier, it is beneficial to practice skin-to-skin contact with your newborn during the first hours after birth. This contact helps regulate the baby\u2019s body temperature, calms them, and triggers the breastfeeding reflex, making it easier to initiate breastfeeding. The first feeding during this time can create a memory that helps the baby recall how to nurse in future sessions. If the baby is not ready to nurse immediately, expressing milk manually or using a spoon to offer a few drops can help start milk production and encourage the baby to begin breastfeeding.",
+      "generated_answer": "To make breastfeeding easier, it is beneficial to practice skin-to-skin contact with your newborn during the first hours after birth. This contact helps regulate the baby\u2019s body temperature, calms them, and triggers the breastfeeding reflex, making it easier to initiate breastfeeding. The first feeding during this time can create a memory that helps the baby recall how to nurse in future sessions. If the baby is not ready to nurse immediately, expressing milk manually or using a spoon to offer a few drops can help start milk production and encourage the baby to begin breastfeeding.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "How do nightmares and night terrors differ? How should parents respond to each? When do these issues typically resolve?",
+      "reference_answer": "Many children start experiencing night terrors around age 1, during which they may scream and cry but remain deeply asleep. You don\u2019t need to wake them unless there\u2019s a risk of injury. Night terrors usually resolve on their own over time. If a child wakes up in a panic, it\u2019s likely a nightmare, and offering reassurance can help them calm down and return to sleep. Nightmares and night terrors typically decrease as the child grows, and there are resources available to help older children manage them.",
+      "generated_answer": "Many children start experiencing night terrors around age 1, during which they may scream and cry but remain deeply asleep. You don\u2019t need to wake them unless there\u2019s a risk of injury. Night terrors usually resolve on their own over time. If a child wakes up in a panic, it\u2019s likely a nightmare, and offering reassurance can help them calm down and return to sleep. Nightmares and night terrors typically decrease as the child grows, and there are resources available to help older children manage them.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What is the normal time for a bowel movement after delivery? What can you do if you experience constipation postpartum?",
+      "reference_answer": "It\u2019s normal not to have a bowel movement for the first two to three days after vaginal delivery or three to five days after a caesarean. If you haven\u2019t had one after this period, you may be constipated, which is common post-delivery. To help with constipation, gradually increase your intake of high-fiber foods, such as whole grains, vegetables, fruits, legumes, and nuts. Drink plenty of water, go to the bathroom as soon as you feel the urge, and start low-intensity physical activity when you're ready. If these steps aren\u2019t enough, consult a healthcare provider to see if a laxative might help.",
+      "generated_answer": "It\u2019s normal not to have a bowel movement for the first two to three days after vaginal delivery or three to five days after a caesarean. If you haven\u2019t had one after this period, you may be constipated, which is common post-delivery. To help with constipation, gradually increase your intake of high-fiber foods, such as whole grains, vegetables, fruits, legumes, and nuts. Drink plenty of water, go to the bathroom as soon as you feel the urge, and start low-intensity physical activity when you're ready. If these steps aren\u2019t enough, consult a healthcare provider to see if a laxative might help.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "Can I have a vaginal delivery after a C-section?",
+      "reference_answer": "It is possible depending on the reason for your previous C-section.",
+      "generated_answer": "Yes, many women who have had a C-section are able to give birth vaginally in subsequent pregnancies, with around three in four successfully having a vaginal birth after caesarean (VBAC). The benefits of VBAC include no risks from surgery, immediate bonding with the baby, greater mobility, and a shorter recovery time. However, VBAC carries a very low risk of uterine rupture, which, though rare, can have serious consequences and may require an emergency C-section. A planned C-section also carries its own risks.",
+      "rougeL": 0.062,
+      "bertscore_f1": 0.858
+    },
+    {
+      "question": "What should you expect from your baby's stools, and when should you be concerned?",
+      "reference_answer": "In the first 2 to 3 days, your baby will pass meconium, which is dark and sticky. After that, stools will become yellowish, greenish, or brownish, and should be soft or liquid if your baby is drinking enough milk. During the first 4 to 6 weeks, your baby may have 3 to 10 bowel movements per day. If there is less than one bowel movement per day, it could mean your baby is not getting enough milk. After 4 to 6 weeks, babies fed with breast milk may have fewer bowel movements (e.g., one every 3 to 7 days), and this is normal as long as the stools remain soft. The color, frequency, and consistency of stools can change based on your baby's diet. If your baby's stools become more liquid than usual, it might indicate a temporary issue, but if your baby is healthy, continue feeding normally. If you're concerned, contact a health professional.",
+      "generated_answer": "In the first 2 to 3 days, your baby will pass meconium, which is dark and sticky. After that, stools will become yellowish, greenish, or brownish, and should be soft or liquid if your baby is drinking enough milk. During the first 4 to 6 weeks, your baby may have 3 to 10 bowel movements per day. If there is less than one bowel movement per day, it could mean your baby is not getting enough milk. After 4 to 6 weeks, babies fed with breast milk may have fewer bowel movements (e.g., one every 3 to 7 days), and this is normal as long as the stools remain soft. The color, frequency, and consistency of stools can change based on your baby's diet. If your baby's stools become more liquid than usual, it might indicate a temporary issue, but if your baby is healthy, continue feeding normally. If you're concerned, contact a health professional.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "what is diaper rash",
+      "reference_answer": "Skin irritation and redness in the area covered \r\nby the baby\u2019s diaper.",
+      "generated_answer": "Skin irritation and redness in the area covered \r\nby the baby\u2019s diaper.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What happens when a man ejaculates?",
+      "reference_answer": "During ejaculation, sperm from the seminal vesicles mix with fluids from the prostate and other glands of the male reproductive organs, forming semen.",
+      "generated_answer": "During ejaculation, sperm from the seminal vesicles mix with fluids from the prostate and other glands of the male reproductive organs, forming semen.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "What is the function of the clitoris?",
+      "reference_answer": "The clitoris is a sensitive, erogenous organ that plays an important role in female sexual pleasure.",
+      "generated_answer": "The clitoris is a sensitive, erogenous organ that plays an important role in female sexual pleasure.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "How accurate is an ultrasound in determining the due date?",
+      "reference_answer": "An ultrasound performed before 20 weeks of pregnancy will give you a good idea of the due date, accurate to within 7 to 10 days.",
+      "generated_answer": "An ultrasound performed before 20 weeks of pregnancy will give you a good idea of the due date, accurate to within 7 to 10 days.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "Why do babies cry excessively, and what can you do?",
+      "reference_answer": "Some babies experience excessive crying, often referred to as colic, where they cry for more than three hours a day, particularly in the late afternoon or evening. During these episodes, the baby may appear to be in pain, with a red face, clenched fists, and curled-up legs. This may be due to gas, as crying can cause babies to swallow air. Colic is a common and normal phase in infancy and is not linked to any underlying health problems. While it can be distressing, it doesn't have any long-term consequences for the baby. As parents, it's important to remain calm during these times and try various soothing methods, such as gentle rocking, swaddling, or offering a pacifier, to comfort your baby. However, if you're concerned about the intensity or duration of the crying, or if other symptoms develop, consulting a healthcare provider is always a good idea.",
+      "generated_answer": "Some babies experience excessive crying, often referred to as colic, where they cry for more than three hours a day, particularly in the late afternoon or evening. During these episodes, the baby may appear to be in pain, with a red face, clenched fists, and curled-up legs. This may be due to gas, as crying can cause babies to swallow air. Colic is a common and normal phase in infancy and is not linked to any underlying health problems. While it can be distressing, it doesn't have any long-term consequences for the baby. As parents, it's important to remain calm during these times and try various soothing methods, such as gentle rocking, swaddling, or offering a pacifier, to comfort your baby. However, if you're concerned about the intensity or duration of the crying, or if other symptoms develop, consulting a healthcare provider is always a good idea.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    },
+    {
+      "question": "Why do I have back pain?",
+      "reference_answer": "It is very common to experience backache or back pain during pregnancy, especially in the early stages. This is due to the natural softening and stretching of ligaments in your body as it prepares for labor, which can strain the joints of your lower body.",
+      "generated_answer": "Back pain during pregnancy, affecting around 50% of women, is often caused by lordosis (the forward arch of the spine due to abdominal weight) and ligamentous hyperlaxity (loose ligaments). To manage the pain, engage in regular physical activity, such as swimming, aquafitness, or yoga. Additionally, wearing supportive shoes, maintaining good posture, and sleeping on your side with a pillow between your knees can help. If the pain persists, worsens, or radiates to the legs, or if you experience pain that spreads to your abdomen, consult a healthcare professional as it could indicate early contractions.",
+      "rougeL": 0.201,
+      "bertscore_f1": 0.862
+    },
+    {
+      "question": "What are the chances of my baby getting HIV if I am HIV positive?",
+      "reference_answer": "There's a risk of transmission, but it's significantly reduced if you consistently take your ARVs as prescribed.",
+      "generated_answer": "Fifth disease, caused by parvovirus B19, is typically contracted during childhood, which provides immunity in adulthood. However, if an unprotected pregnant woman contracts Fifth disease, there is a risk that the fetus may become infected. This infection can lead to complications, including miscarriage, especially before 20 weeks of pregnancy. If you've been in contact with someone who has Fifth disease, it's important to consult your healthcare provider to assess the situation and determine any necessary actions.",
+      "rougeL": 0.144,
+      "bertscore_f1": 0.846
+    },
+    {
+      "question": "How should a mother recover after a caesarean? What should be done for pain relief and incision care? When can a mother resume activities after a caesarean?",
+      "reference_answer": "After a caesarean, it is important to gradually start walking, drinking, and eating to aid recovery. Moving around helps prevent complications. Pain from the incision and numbness in the surrounding area may occur, with pain relief prescribed by the doctor. The incision will heal over the following weeks, and health professionals will provide guidance on caring for the wound. Mothers are also given advice on newborn care, though babies born by caesarean generally require no special care. It will take a few weeks to resume activities such as driving, lifting, certain physical activities, or having sexual relations.",
+      "generated_answer": "After a caesarean, it is important to gradually start walking, drinking, and eating to aid recovery. Moving around helps prevent complications. Pain from the incision and numbness in the surrounding area may occur, with pain relief prescribed by the doctor. The incision will heal over the following weeks, and health professionals will provide guidance on caring for the wound. Mothers are also given advice on newborn care, though babies born by caesarean generally require no special care. It will take a few weeks to resume activities such as driving, lifting, certain physical activities, or having sexual relations.",
+      "rougeL": 1.0,
+      "bertscore_f1": 1.0
+    }
+  ]
+}

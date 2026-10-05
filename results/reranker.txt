@@ -1,0 +1,13 @@
+Bi-encoder alone Top-1 accuracy:        36/43 (83.7%)
+Bi-encoder + cross-encoder rerank Top-1: 34/43 (79.1%)
+True answer missing from top-10 shortlist entirely: 0/43
+
+Cases FIXED by reranking (2):
+  - What techniques can help manage childbirth pain, and how do they work?
+  - Why do I have back pain?
+
+Cases BROKEN by reranking (4):
+  - what is  Uterine rupture
+  - When can I have sex after vaginal stitches post-delivery?
+  - How do I know that I am in labor?
+  - Why do babies cry excessively, and what can you do?
