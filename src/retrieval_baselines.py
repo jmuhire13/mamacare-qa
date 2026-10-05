@@ -9,7 +9,7 @@ Knowledge base = all 430 answers (train + val + test combined). This isn't
 leakage: the deployed app has to be able to return any of the 430 reviewed
 answers, so a question's own true answer must always be reachable. What's
 being measured is whether text similarity alone can pick the right answer
-out of all 430 candidates - not whether the model generalises to entirely
+out of all 430 candidates, not whether the model generalises to entirely
 new questions, which these numbers don't test.
 
 Run with: python src/retrieval_baselines.py
@@ -96,7 +96,7 @@ def main():
 
     results = {}
 
-    # --- Experiment 1: TF-IDF ---
+    # --- TF-IDF ---
     tfidf = TfidfVectorizer()
     kb_tfidf = tfidf.fit_transform(kb_answers)
 
@@ -109,7 +109,7 @@ def main():
         "test": evaluate_ranking(test_items, kb_answers, tfidf_score),
     }
 
-    # --- Experiment 2: BM25 ---
+    # --- BM25 ---
     tokenized_kb = [simple_tokenize(a) for a in kb_answers]
     bm25 = BM25Okapi(tokenized_kb)
 
@@ -121,7 +121,7 @@ def main():
         "test": evaluate_ranking(test_items, kb_answers, bm25_score),
     }
 
-    # --- Experiment 3: pretrained sentence embeddings, no fine-tuning ---
+    # --- Pretrained sentence embeddings, no fine-tuning ---
     embedder = SentenceTransformer(PRETRAINED_MODEL_NAME)
     kb_embeddings = embedder.encode(kb_answers, normalize_embeddings=True)
 
@@ -135,7 +135,7 @@ def main():
     }
 
     # Merge with whatever's already in the results file instead of overwriting
-    # it outright - evaluate_finetuned_retriever.py adds its own
+    # it outright. evaluate_finetuned_retriever.py adds its own
     # "finetuned_embeddings" entry to this same file, and a blind overwrite
     # here would destroy that if this script runs afterward.
     RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)

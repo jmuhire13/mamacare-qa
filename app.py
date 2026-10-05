@@ -1,6 +1,6 @@
 """
 The web app: a user types a maternal-health question, the app finds the
-closest matching reviewed answer out of all 430, and returns it - or
+closest matching reviewed answer out of all 430, and returns it, or
 refuses if nothing in the knowledge base is a close enough match.
 
 Uses two different models for two different jobs, based on a direct,
@@ -9,7 +9,7 @@ measured comparison: the ORIGINAL pretrained model
 model decides WHICH answer to give once that gate says yes. Fine-tuning
 made retrieval more accurate but also made confidence scores less reliable
 for telling real maternal-health questions apart from other health-adjacent
-topics - the pretrained model turned out to be a better judge of "is this
+topics. The pretrained model turned out to be a better judge of "is this
 even in-domain," even though it's worse at picking the exact right answer
 once it agrees to attempt one. Using each model for the job it is better
 at measurably beats using either model alone for both jobs.
@@ -28,7 +28,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 GATE_MODEL_NAME = "all-MiniLM-L6-v2"  # pretrained, decides whether to answer at all
 
 # Uses the local model folder when it exists (after running finetune_retriever.py
-# yourself), and falls back to the Hugging Face Hub copy otherwise - the deployed
+# yourself), and falls back to the Hugging Face Hub copy otherwise. The deployed
 # app has no local models/ folder, only the Hub repo.
 LOCAL_RETRIEVAL_MODEL_DIR = Path("models/finetuned-retriever")
 HUB_RETRIEVAL_MODEL_ID = "jmuhire13/mamacare-qa-retriever"
@@ -103,12 +103,12 @@ def answer_question(question, resources):
         return REFUSAL_MESSAGE
 
     # Step 2: which answer? Decided by the FINE-TUNED model, which is more
-    # accurate at picking the exact right answer once we've agreed to try.
+    # accurate at picking the exact right answer once the gate accepts the question.
     retrieval_embedding = resources["retrieval_model"].encode([question], normalize_embeddings=True)
     retrieval_similarities = cosine_similarity(retrieval_embedding, resources["retrieval_kb_embeddings"])[0]
     best_index = retrieval_similarities.argmax()
 
-    # Shown so the user can judge the match themselves - at a measured 4/43
+    # Shown so the user can judge the match themselves. At a measured 4/43
     # confidently-wrong rate, surfacing the matched question is the cheapest
     # way to make a mismatch visible instead of invisible.
     matched_question = resources["kb_questions"][best_index]

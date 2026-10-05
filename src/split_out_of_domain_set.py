@@ -4,8 +4,8 @@ train/val/test were split, and for the same reason: a threshold must never
 be chosen by looking at the data it will be reported against.
 
 - out_of_domain_calibration.json: used, together with val, to pick a better
-  threshold for the hybrid gate now that we know its current one (0.34) was
-  tuned on too small and too easy a set.
+  threshold for the hybrid gate, because an earlier threshold had been tuned on
+  a smaller and easier set.
 - out_of_domain_heldout.json: never touched during calibration. The final
   refusal rate is reported only against this file.
 

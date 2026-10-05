@@ -182,9 +182,9 @@ def main():
         json.dump(report, f, indent=2, ensure_ascii=False)
 
     print(f"Raw rows:              {report['raw_count']}")
-    print(f"Removed - leakage:     {report['leakage_removed']}")
-    print(f"Removed - cut-off:     {report['cutoff_removed']}")
-    print(f"Removed - duplicate:   {report['duplicate_removed']}")
+    print(f"Removed (leakage):     {report['leakage_removed']}")
+    print(f"Removed (cut-off):     {report['cutoff_removed']}")
+    print(f"Removed (duplicate):   {report['duplicate_removed']}")
     print(f"Clean rows:            {report['clean_count']}")
     print(f"Near-duplicate links:  {len(linked_pairs)}")
     print(f"Train / Val / Test:    {report['train_count']} / {report['val_count']} / {report['test_count']}")

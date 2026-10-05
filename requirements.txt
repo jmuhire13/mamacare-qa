@@ -1,13 +1,13 @@
-# Data handling
-pandas
+# Numerical computing
 numpy
 
 # Baseline and fine-tuned retrieval
 # sentence-transformers and torch are pinned because the retriever
 # fine-tuning step (src/finetune_retriever.py) crashes on this machine if
-# the `datasets` library is anywhere in the environment, even unimported -
+# the `datasets` library is anywhere in the environment, even unimported.
 # these exact versions are confirmed to work without it.
 scikit-learn
+scipy
 rank-bm25
 sentence-transformers==6.1.0
 
@@ -24,5 +24,5 @@ bert-score
 # Web deployment
 streamlit
 
-# Pushing/pulling models from Hugging Face Hub
+# Hugging Face Hub downloads (used by sentence-transformers and the app's fallback)
 huggingface-hub

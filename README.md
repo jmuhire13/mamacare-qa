@@ -1,156 +1,145 @@
 # mamacare-qa: Maternal Health Q&A Assistant
 
-A domain-specific question-answering assistant for expectant mothers and community health workers, built on a retrieval-based NLP pipeline and evaluated with rigorous, held-out statistical testing.
+mamacare-qa answers English questions about maternal and newborn health. It returns the stored answer closest to the question, and it declines to answer when no stored answer is close enough. The system chooses only from 430 medically reviewed question-answer pairs, so every answer it gives is one of those pairs.
 
 Live app: [https://mamacare-app-4dakesxahaqvamub4rjcbk.streamlit.app/](https://mamacare-app-4dakesxahaqvamub4rjcbk.streamlit.app/)
-Demo video: _pending_
 
-## 1. Problem
+Demo video: to be added
 
-Expectant mothers and newborn caregivers often need quick, reliable answers to everyday maternal-health questions (pregnancy symptoms, labor signs, postpartum recovery, infant care) at moments when a clinician isn't immediately reachable. Community health workers fill much of this gap in practice, but their time and reach are limited, and search engines return generic or unreliable results for health questions that call for domain-specific, medically reviewed answers. This project builds a question-answering assistant that lets users ask a maternal-health question in plain English and get back an answer drawn from a set of medically reviewed question-answer pairs, with an explicit "I don't know" for anything outside that scope rather than a guess.
+## Why this design
 
-Domain-specific question answering was chosen over the other two project tracks (machine translation and text classification for an African language) because it maps directly onto this problem: the goal isn't translating or categorizing text, it's giving a correct, sourced answer to a real question. English was used because the assignment permits either English or an African language for the QA track specifically, and the chosen dataset (see below) is itself in English.
+Expectant mothers and newborn caregivers often need a quick answer when a clinician is not available. A search engine returns generic results for health questions, and a language model can state a wrong answer with confidence. This project treats refusal as a required behavior. An answer that says the assistant does not know is preferable to a confident wrong answer, so the system measures both how often it answers correctly and how often it refuses off-topic questions.
 
-The target users are expectant mothers and the community health workers who support them: people who need an answer now, not a wall of search results, and who are better served by a system that says "I don't have a confident answer to that" than one that confidently answers wrong. That refusal behavior, not just raw answer accuracy, is treated as a first-class requirement throughout this project, not an afterthought.
+## Data
 
-## 2. Dataset
+The dataset is the MOTHER dataset (Eyobu et al., 2025), with answers that the source article states were provided and validated by professional medical personnel. The question-answer data are deposited in the Harvard Dataverse at [https://doi.org/10.7910/DVN/EZLCH3](https://doi.org/10.7910/DVN/EZLCH3), whose record lists the rights as CC0 1.0. The article is published under CC BY 4.0.
 
-### Source
+The released file contains 501 pairs. The article reports 503, and the reason for the difference was not determined. Cleaning removed 67 rows whose question contains no question mark and does not begin with a question word, 2 rows whose answer ends with a colon, and 3 duplicate questions. One row meets two rules, so 71 distinct rows are removed and 430 remain. The rules were not checked for false removals.
 
-The dataset is the [MOTHER dataset](https://doi.org/10.7910/DVN/EZLCH3) (Eyobu et al., *Mother: a maternal online technology for health care dataset*, BMC Research Notes, 2025), collected from expectant mothers in rural/semi-urban Uganda. Every answer went through a documented two-step medical review before being accepted. The deposit is licensed CC0 1.0, confirmed directly against the Dataverse listing's own license field rather than taken from the paper's text, which states a different license.
+Questions with a TF-IDF cosine similarity of at least 0.65 were grouped, which produced 25 links forming 19 groups of near-duplicate questions. Each group was assigned to one split as a whole. The 430 pairs were split 344, 43, and 43 into training, validation, and test sets, using a random seed of 42.
 
-### Cleaning
+Some limits follow from the data. The dataset is small, and two sub-topics, changes in relationship dynamics during pregnancy and fluctuations in sexual desire, appear in the raw file only as statements, so the cleaning rules removed them. The answers for starting a hormonal IUD, a copper IUD, or a contraceptive implant after childbirth differ only in the method name, so a retrieval result that returns one of them for another is scored as wrong.
 
-The raw file holds 501 question-answer pairs (`data/raw/mother_question_and_answer_pairs_data.json`). Cleaning removed 67 rows where the "question" was actually a statement summarizing an answer, 3 duplicate questions, and 2 answers that were cut off mid-sentence. These three counts add up to 72, not the 71 rows actually removed, because one row is flagged by two filters at once (its "question" is a statement, and its answer is also cut off mid-list) and only gets removed once. 430 clean pairs remain. These were split 344/43/43 into train/val/test using a fixed random seed (42), with near-duplicate topic groups (hormonal IUD, copper IUD, and contraceptive implants, for example) kept together within a single split so the model is never tested on something nearly identical to what it trained on.
+## Method
 
-Reproduce this stage with `python src/data_prep.py`, then verify the output with `python tests/test_data_prep.py`.
+Three baseline retrieval methods were compared over all 430 answers: TF-IDF (scikit-learn defaults), BM25 (rank-bm25 with k1 = 1.5 and b = 0.75), and the pretrained `all-MiniLM-L6-v2` sentence-embedding model without training.
 
-### Limitations
+The fine-tuned retriever starts from `all-MiniLM-L6-v2` and is trained on the 344 training pairs with `MultipleNegativesRankingLoss` from sentence-transformers 6.1.0, which treats the other answers in each batch as negative examples. Training uses batches of 16, 8 epochs, a learning rate of 2e-5, AdamW, and seed 42. The training loop is written by hand. Loading the `datasets` package together with torch and scikit-learn crashed Python on the development machine, and the library's `fit()` method loads that package. The hand-written loop has no learning-rate warmup, weight decay, or gradient clipping, which the default `fit()` applies.
 
-The dataset is small, the answers are generic clinical guidance rather than specific to the Ugandan context, and topic coverage is uneven. Mental health questions, for instance, are rare. Two sub-topics lose coverage entirely during cleaning: the raw file only ever phrases "changes in relationship dynamics during pregnancy" and "fluctuations in sexual desire" as statements rather than questions, so every row touching them is removed as leakage with nothing left to replace it.
+The refusal gate decides whether to answer. It uses the pretrained `all-MiniLM-L6-v2` model, not the fine-tuned one. The gate takes the highest cosine similarity between the question and any stored answer, and it answers only when that value is at least the threshold. The threshold is 0.495. It was chosen by a grid search over 201 values from 0 to 1, using the validation questions and 76 off-topic calibration questions. The calibration questions are 18 hand-written probes and 58 questions from a set of 117 out-of-domain questions, which was split into calibration and held-out halves of 58 and 59. The held-out questions were used only to report the final refusal rate.
 
-A small number of answers in the knowledge base are near-identical except for one changed term: the questions about starting a hormonal IUD, a copper IUD, and a contraceptive implant after childbirth all have the same answer template with only the method name swapped. A retrieval system that returns the wrong one of these near-twins would be medically harmless (the underlying guidance is the same) but still counts as a wrong answer under exact-match scoring, so reported accuracy is a slight underestimate for this handful of cases.
+The generation alternative uses Qwen2.5-0.5B-Instruct with the top three passages from the fine-tuned retriever in the prompt, greedy decoding, and at most 150 new tokens. A second version adds LoRA adapters (rank 8, alpha 16, dropout 0.05) to the q, k, v, and o projections and trains them for 3 epochs at a learning rate of 1e-4. The adapters add 1,081,344 trainable parameters, about 0.22 percent of the model.
 
-## 3. Methodology
+## Results
 
-The pretrained embedding baseline (`all-MiniLM-L6-v2`) already outperforms TF-IDF and BM25 with no training at all, so the next step is fine-tuning that same model on our own 344 training pairs to push it further. Fine-tuning uses `MultipleNegativesRankingLoss` (Henderson et al., 2017): for every question-answer pair in a training batch, the model is pulled to place that question's embedding close to its true answer's embedding, while every other answer in the same batch automatically acts as a negative example, pushed further away. No manually written wrong answers are needed. The batch itself supplies them.
+On the 43 test questions, with all 430 answers as candidates:
 
-Training runs for 8 epochs with batch size 16 and learning rate 2e-5, using a hand-written PyTorch training loop rather than the library's usual `model.fit()` convenience method. This was a deliberate workaround, not a style choice: on this machine, the newer `sentence-transformers` version routes `.fit()` through the `datasets` library, and loading `torch`, `scikit-learn`, and `datasets` together in the same process causes a native-library crash, even if our own code never imports `datasets` directly; the library appears to probe for it internally as soon as it's installed. Uninstalling it fixed the crash. The hand-written loop computes the same loss (`MultipleNegativesRankingLoss`, scale 20) as `.fit()` would, but does not replicate `.fit()`'s default learning-rate warmup, weight decay, or gradient clipping. That's a deliberate simplification for a small dataset, not a hidden discrepancy.
+| Method | Top-1 (95% Wilson CI) | Top-3 | Recall@5 | MRR |
+| --- | --- | --- | --- | --- |
+| TF-IDF | 30/43 = 0.698 [0.549, 0.814] | 0.767 | 0.791 | 0.747 |
+| BM25 | 29/43 = 0.674 [0.525, 0.795] | 0.744 | 0.814 | 0.733 |
+| Pretrained embeddings | 34/43 = 0.791 [0.648, 0.886] | 0.884 | 0.930 | 0.853 |
+| Fine-tuned embeddings | 36/43 = 0.837 [0.700, 0.919] | 0.953 | 0.977 | 0.901 |
 
-Reproduce this stage with `python src/finetune_retriever.py`, then evaluate with `python src/evaluate_finetuned_retriever.py` and verify with `python tests/test_finetuned_retriever.py`.
+Fine-tuning fixed three questions that the pretrained model got wrong and broke one that it got right. The two-sided exact sign test on those four disagreeing questions gives p = 0.625, so the difference is not distinguishable from chance on this test set. Retraining with seeds 1 and 7 gave 36/43 and 35/43 on the test set, so the improvement over the pretrained model held in every seed tried, but its size changes by a question or two between seeds. Disabling BM25's length normalization (b = 0) lowered its Top-1 to 25/43.
 
-### Deciding when to refuse
+For the refusal gate on the 43 in-domain test questions, 36 were answered correctly (83.7%, 95% CI 70.0% to 91.9%), 4 were answered wrongly, none were refused when a correct answer existed, and 3 were refused where the retrieved answer would have been wrong. The four wrong answers all passed the gate. Each retrieved a question on the same topic as the true one, for example "How can you recognize intestinal cramps?" for a question about sharp stomach pains. On the 59 held-out off-topic questions, the gate refused 53 (89.8%, 95% CI 79.5% to 95.3%).
 
-A retrieval system will always return *something*. Even for a question that has nothing to do with maternal health, it still hands back whichever of the 430 answers happens to score highest. The app needs a second decision on top of retrieval: whether to answer at all, or say "I don't have a confident answer to that." This is done by comparing the question's best-match similarity score against a threshold, decided once during calibration and loaded by the app at runtime.
+Three gate designs were compared by AUROC on the test and held-out questions together. The single fine-tuned signal scored 0.964 (bootstrap 95% interval 0.927 to 0.991), the two-signal design scored 0.918 (0.861 to 0.963), and the shipped hybrid design with the pretrained gate scored 0.984 (0.963 to 0.998). These intervals use 2,000 bootstrap resamples with seed 42. The test and held-out questions were used both to compare designs and to report results, so these numbers are not from a fully unseen set.
 
-The gate and the retrieval step deliberately use two different models. The fine-tuned retriever is more accurate at picking the exact right answer once the app has agreed to attempt one, but a direct comparison of accept/refuse behavior showed it makes a worse judge of whether a question is in-domain at all: fine-tuning pulls maternal-health questions into a tighter embedding cluster without ever seeing genuine off-topic examples, which appears to inflate similarity scores broadly for anything loosely health-related rather than sharpening the real domain boundary. So the app uses the original pretrained model (`all-MiniLM-L6-v2`, never fine-tuned) purely to decide whether to answer, and the fine-tuned model purely to decide which answer to give once that gate says yes.
+A cross-encoder reranker, `cross-encoder/ms-marco-MiniLM-L-6-v2`, was tested on the top ten candidates from the fine-tuned retriever. It reduced in-domain Top-1 from 36/43 to 34/43, fixing two questions and breaking four. The sign test on those six questions gives p = 0.69. The shipped application does not use the reranker.
 
-The threshold itself is calibrated on data the final test never touches: the validation split, 18 hand-written off-topic probes, and a separate 58-question calibration set of harder, health-adjacent-but-off-topic questions (hair loss, seasonal allergies, muscle-building vitamins), topics that share enough vocabulary with real maternal-health answers to be a genuine test of the boundary. The final reported refusal rate is measured only against a 59-question held-out set that plays no part in choosing the threshold.
+Generation results on the same 43 test questions:
 
-Reproduce this stage with `python src/split_out_of_domain_set.py`, then `python src/tune_threshold.py`, then evaluate with `python src/out_of_domain_test.py` and verify with `python tests/test_out_of_domain.py`.
+| System | ROUGE-L | BERTScore F1 |
+| --- | --- | --- |
+| Retrieval only (top-1 passage as the answer) | 0.864 | 0.977 |
+| Qwen2.5-0.5B-Instruct, zero-shot, top three passages | 0.437 | 0.909 |
+| Qwen2.5-0.5B-Instruct with LoRA, top three passages | 0.831 | 0.972 |
 
-## 4. Experiments
+The LoRA model scored below the retrieval-only baseline on both metrics. It copied a retrieved passage word for word in 40 of 43 answers, and 39 of those 40 copies were the first passage in the prompt. The fine-tuned retriever ranks the gold answer in the top three for all 344 training questions and first for 327. Training on prompts built this way taught the model to copy the first passage, which is correct when the retriever ranks well and wrong otherwise.
 
-The first three experiments establish a baseline for the retrieval task: given a question, find the correct answer among all 430 reviewed answers in the knowledge base. None of these three involve any training.
+The zero-shot answers were read by hand and labeled once: 31 of 43 are faithful to at least one retrieved passage (72.1%), 5 add specific detail that no passage supports, and 7 contradict the passages or invent content. These labels are not in the repository, because they were assigned by hand and no script produces them.
 
-TF-IDF represents each answer as a vector weighted by how distinctive its words are, and ranks candidates by similarity to the question. BM25 is a refinement of the same idea, long used in search engines. The third baseline uses `all-MiniLM-L6-v2`, a pretrained sentence-embedding model, exactly as downloaded, with no fine-tuning of our own.
+## Deployment
 
-Reproduce this stage with `python src/retrieval_baselines.py`, then verify with `python tests/test_retrieval_baselines.py`.
+The app runs on Streamlit Community Cloud. The cloud service builds it from the `main` branch of this repository and installs `requirements.txt`. The fine-tuned retriever is not committed to git, so the app loads `jmuhire13/mamacare-qa-retriever` from the Hugging Face Hub at startup. The Hub download does not pin a revision, so a change to that Hub repository changes the deployed model. The app shows the matched knowledge-base question above each answer, so a user can see which stored question the system matched.
 
-## 5. Results
+The deployed app is retrieval-only and does not generate text. The generation experiments are documented here but are not part of the app.
 
-On the test split (43 questions), TF-IDF and BM25 are statistically indistinguishable: Top-1 0.698 vs 0.674, a one-question difference with 95% Wilson confidence intervals of [0.549, 0.814] and [0.525, 0.795] that almost completely overlap. The two methods actually disagree on five different questions. TF-IDF gets three right that BM25 misses, and BM25 gets two right that TF-IDF misses, so this isn't BM25 being systematically weaker, just a different pattern of mistakes on a small test set. We tested the obvious hypothesis that BM25's length-normalization parameter was the cause by rerunning it with length normalization disabled (b=0): accuracy got worse, not better, which rules that explanation out rather than confirming it.
+## Reproducing the results
 
-The pretrained embedding model clearly beats both TF-IDF and BM25 with zero training: Top-1 0.791, 95% CI [0.648, 0.886]. Fine-tuning that same embedding model on our own training pairs moves Top-1 to 0.837, 95% CI [0.700, 0.919]. The two intervals overlap almost entirely, so this is not a strong result on its own. A paired, question-by-question comparison is more informative: of the 43 test questions, fine-tuning fixes 3 that the pretrained model got wrong and breaks 1 that it had right, a net gain of 2 questions. Top-3, Recall@5, and MRR move in the same direction, but since all four metrics are computed on the same 43 questions, that is one result viewed four ways, not four independent confirmations. Retraining with two other random seeds gave Top-1 of 36/43 and 35/43 (versus 36/43 for the seed actually shipped), consistently above the pretrained baseline in every seed tried, but by a margin of 1-2 questions rather than a fixed, exact gain. This is the model that ships in the deployed app: a small, real, and seed-robust-in-direction improvement, reported at its actual size rather than an inflated one.
-
-Neither TF-IDF nor BM25's settings were tuned on the validation split. Both use their library defaults (plain term weighting for TF-IDF; k1=1.5, b=0.75 for BM25). They're included as fixed, untrained reference points for the embedding methods to beat, not as baselines we tried to optimize.
-
-| Method | Test Top-1 | Test Top-3 | Test Recall@5 | Test MRR |
-|---|---|---|---|---|
-| TF-IDF | 0.698 | 0.767 | 0.791 | 0.747 |
-| BM25 | 0.674 | 0.744 | 0.814 | 0.733 |
-| Pretrained embeddings | 0.791 | 0.884 | 0.930 | 0.853 |
-| Fine-tuned embeddings | 0.837 | 0.953 | 0.977 | 0.901 |
-
-### Refusal gate
-
-On the 43-question in-domain test split, every question falls into exactly one of four outcomes: 36/43 (83.7%, 95% CI [70.0%, 91.9%]) are answered both confidently and correctly ("true positive" below always means this combined outcome, not just "the gate accepted it"); 4/43 (9.3%, 95% CI [3.7%, 21.6%]) are answered confidently but wrong; 0/43 are wrongly refused (a real answer the gate turned down); and 3/43 are refused where the retrieved answer would have been wrong anyway, the gate correctly erring on the side of caution. These four add up to 43.
-
-On a separate 59-question held-out set of off-topic questions, 53/59 (89.8%, 95% CI [79.5%, 95.3%]) are correctly refused. The six misses: a bedtime routine for a 5-year-old, green tea's health benefits, acid reflux and heartburn "in general," vitamins for muscle building, exercises for lower back pain, and cleaning a cast iron pan. Three of these (heartburn, back pain, bedtime routines) have near word-for-word matches in the knowledge base once a pregnancy or infant qualifier is added, which is a real, defensible source of confusion rather than an arbitrary mistake; the other two (muscle vitamins, cast iron pan) share no such overlap and are straightforward false accepts.
-
-The hybrid design was chosen over two alternatives by comparing AUROC (the probability a random in-domain question scores higher than a random out-of-domain one, independent of any specific threshold), computed on the same 43 test + 59 held-out questions (n=102): 0.964 for a single fine-tuned signal, 0.918 for a two-signal variant, and 0.984 (bootstrap 95% CI [0.963, 0.998], 2,000 resamples) for the hybrid design that shipped. Each design's own threshold (0.56, 0.515, and 0.495 respectively) was then picked separately by the same grid search described above, applied to that design's own calibration scores.
-
-A pretrained cross-encoder reranker was tried as a fix for retrieval's known wrong-answer cases: in-domain Top-1 measurably dropped from 36/43 to 34/43 (fixing 2 of the 7 known wrong cases, breaking 4 previously-correct ones). With only 6 cases changed, a sign test on 2-vs-4 gives p≈0.69, nowhere near significant, so the honest conclusion is "no evidence this reranker helps," not a confident "it makes things worse."
-
-A multi-seed check (retraining the retriever from scratch with seeds 42, 1, and 7) gave test Top-1 of 36/43, 36/43, and 35/43 respectively. That's a check of training stability, not a way to narrow the sampling uncertainty above, which stays exactly as wide regardless of how many training seeds are tried.
-
-**Limitation, stated directly:** the 43-question test split and the 117-question out-of-domain set have each been looked at repeatedly while choosing between refusal designs and judging the reranker, even though no single threshold was ever picked by looking at the final held-out numbers. That makes the figures above development-quality estimates of a research process, not numbers from a single pristine held-out test. A more rigorous follow-up would use grouped k-fold cross-validation over all 430 answer pairs instead of a single fixed split; that wasn't done here given the project timeline.
-
-## 6. Error Analysis
-
-### Retrieval
-
-Reading the fine-tuned retriever's 7 wrong test-split cases by hand (rather than trusting the 83.7% headline number alone) shows two distinct failure patterns. The first is genuine topic confusion between medically adjacent concepts: "Why do I have a low or sad mood?" retrieves a passage about miscarriage grief instead of the correct one about depression during pregnancy; "What is the function of the immune system?" retrieves a passage about antibodies; one case (HIV transmission risk retrieving an unrelated passage about Fifth disease immunity) is a clean, unrelated-topic miss, though notably also the lowest-confidence of the seven, so the app's refusal gate is more likely to catch it in practice than this retrieval-only number suggests. The second pattern, covering 3 of the 7 cases, isn't really a retrieval mistake at all: the dataset has more than one legitimate answer to some overlapping questions (childbirth-pain techniques, vaginal delivery after a C-section, back pain), and the model picked a different, also-correct answer rather than the one specific row marked as ground truth.
-
-### Generation (tested, not shipped)
-
-A two-stage retrieval-then-generation pipeline was built and evaluated as an alternative to pure retrieval, using `Qwen2.5-0.5B-Instruct` to paraphrase the top-3 retrieved passages into a final answer. The decisive comparison turned out to be one that wasn't in the original experiment design: scoring the retriever's own top-1 passage directly as the answer, with no generation step at all, using the identical ROUGE-L/BERTScore pipeline. That retrieval-only baseline scores **ROUGE-L 0.864, BERTScore F1 0.977**, both *higher* than the LoRA fine-tuned generator's 0.831/0.972. Generation didn't just fail to add value; it measurably underperformed doing nothing on top of retrieval.
-
-Reading individual outputs explains why. 40 of the 43 LoRA-generated answers are exact verbatim copies of a retrieved passage (confirmed two ways: exact string match, and a looser ROUGE-L ≥ 0.95-against-nearest-passage definition: both give 40/43, so this isn't an artifact of how "verbatim" is defined). Checking all 43 training questions against the same fine-tuned retriever used at test time shows why the model learned this shortcut: **344 of 344 (100%) training questions had their own gold answer in the retriever's top-3, and 327 of 344 (95%) had it at rank 1.** The generator was trained almost exclusively on cases where the correct passage was trivially present and usually listed first. It never had to learn to resolve a close call between competing candidates.
-
-This shows up directly in the 7 low-scoring test cases. Two had the gold answer outside the top-3 entirely (the generator couldn't have gotten these right regardless of its own quality). Of the remaining 5 where the gold answer was retrieved but not ranked first, the model copied the wrong, top-ranked passage in **5 out of 5**. It never once selected a correctly-ranked-lower passage, including the one case (a question about the clitoris) where the correct passage was actually ranked first and the model still copied a different one, describing the perineum instead. The pattern across all 7 is consistent: the model reproduces whatever is listed first, which only looks like correct "generation" when the retriever's own ranking happens to be right.
-
-Two further verbatim-copy cases are worth naming directly for how concerning they are. For a question about diaper rash, the model's answer blends in a detail from an unrelated retrieved passage about newborn skin coloring, misattributing it to diaper rash. For a question about HIV transmission risk during pregnancy, the model states "the passage states that 'If you're HIV-positive, there is no specific risk to your pregnancy or baby'", a quote that does not appear in any of the three retrieved passages, paired with a confidently stated and medically inaccurate claim that minimizes a real transmission risk.
-
-The zero-shot model (no LoRA fine-tuning) was separately evaluated for grounding, since the original write-up rested on a single named example. All 43 zero-shot outputs were read and classified by hand (greedy decoding, no sampling, so this reflects one deterministic pass of this specific 0.5B model, not a general claim about generation): 31/43 (72.1%, 95% CI [57.3%, 83.3%]) are faithful to at least one retrieved passage, 5/43 (11.6%) add specific but unverified detail not clearly grounded in any passage, and 7/43 (16.3%, 95% CI [8.1%, 30.0%]) contradict the retrieved material or invent content outright, including fabricating a quote attributed to a nonexistent passage. These categories came from a single reading pass with no second labeler, so treat the exact boundaries between categories as approximate; the overall split is not.
-
-One fix was attempted and abandoned: retraining the LoRA generator on paraphrased versions of the 344 training answers, to remove the verbatim-copy shortcut directly. An automated BERTScore faithfulness check (threshold 0.85) passed all 344 rewrites, but BERTScore F1 was never rescaled against a baseline in this check, and unrescaled BERTScore F1 is compressed into a narrow band for any fluent English text regardless of quality, so a threshold of 0.85 was unlikely to reject anything, and it didn't. Reading the lowest-scoring rewrites by hand did find real factual drift the check missed: a pregnancy timeframe stated incorrectly, and an unsupported claim added to one answer. This is real evidence that errors exist, but because the sample read was the one the metric already flagged as lowest-scoring, it cannot support an estimate of how common such errors are across all 344. The decision to stop before retraining on these targets stands regardless: training a medical QA generator on data with a demonstrated factual error would be worse than the verbatim-copying it was meant to fix.
-
-Given all of this, and that neither the course assignment nor the rubric requires generated output for this project track (`RUBRIC.md`: *"Develops, adapts, or fine-tunes an appropriate ML/NLP model using concepts from the course"*, already satisfied by the fine-tuned retriever; `ASSIGNMENT.md`: *"You may use a pretrained language model from Hugging Face and fine-tune or adapt it... parameter-efficient fine-tuning techniques such as LoRA"*, permissive, not mandatory), the shipped app is retrieval-only. The generation work is kept as a fully documented, tested-and-rejected experiment: not a weaker result to downplay, but a measured negative finding with a clear, evidenced mechanism (training-data leakage producing a copy-the-first-passage shortcut), which is exactly what the rubric's Baseline/Experimentation and Evaluation criteria ask for.
-
-Reproduce with `python src/generate_zeroshot.py` (zero-shot baseline), `python src/evaluate_retrieval_only_baseline.py` (the no-generation comparison point), and `python src/finetune_generator.py` then `python src/evaluate_generator.py` (LoRA fine-tuned); verify the central finding with `python tests/test_generation.py`. None of these are required to run the deployed app.
-
-## 7. Setup Instructions
-
-Run these commands in order from the project root.
+Run these commands from the project root, in this order. The order matters because each step reads files that an earlier step creates. The data preparation step creates the splits that every later step uses. The fine-tuned retriever must exist before the threshold, generation, and reranker steps, and the held-out split must exist before the threshold is calibrated and tested.
 
 ```bash
-# 1. Install dependencies
+# 1. Install the pinned dependencies
 pip install -r requirements.txt
 
-# 2. Clean the raw dataset into train/val/test splits
+# 2. Clean the raw data and create the train, validation, and test splits
 python src/data_prep.py
+python tests/test_data_prep.py
 
-# 3. Run the three non-trained retrieval baselines (TF-IDF, BM25, pretrained embeddings)
+# 3. Score the three baseline retrievers on the validation and test splits
 python src/retrieval_baselines.py
+python tests/test_retrieval_baselines.py
 
-# 4. Fine-tune the retriever on the training set
+# 4. Fine-tune the retriever on the training split, then score it
 python src/finetune_retriever.py
-
-# 5. Evaluate the fine-tuned retriever
 python src/evaluate_finetuned_retriever.py
+python tests/test_finetuned_retriever.py
 
-# 6. Calibrate the refusal threshold (decides when the app should say "I don't know")
-python src/tune_threshold.py
-
-# 7. Split the out-of-domain test questions into calibration/held-out halves
+# 5. Split the 117 out-of-domain questions into calibration and held-out halves
 python src/split_out_of_domain_set.py
 
-# 8. Run the final, rigorous out-of-domain refusal test
-python src/out_of_domain_test.py
+# 6. Choose the refusal threshold on validation and calibration data only
+python src/tune_threshold.py
 
-# 9. Launch the app locally
+# 7. Measure the refusal rate on the held-out questions and the in-domain accuracy on the test split
+python src/out_of_domain_test.py
+python tests/test_out_of_domain.py
+
+# 8. Compute the paired comparison, Recall@5, confidence intervals, sign test, and AUROC interval
+python src/compute_report_metrics.py
+
+# 9. Compare the three refusal designs by AUROC and held-out refusal rate
+python src/finalize_thresholds.py
+
+# 10. Test the cross-encoder reranker on the retrieval errors (not used by the app)
+python src/rerank_experiment.py
+
+# 11. Repeat the fine-tuning with other seeds to check training stability (run once per seed)
+python src/check_seed_variance.py 1
+python src/check_seed_variance.py 7
+
+# 12. Generation experiments (not used by the app)
+python src/generate_zeroshot.py
+python src/evaluate_retrieval_only_baseline.py
+python src/finetune_generator.py
+python src/evaluate_generator.py
+python tests/test_generation.py
+python src/analyze_generation_outputs.py
+
+# 13. Run the app locally
 streamlit run app.py
 ```
 
-Each stage's output has a matching test script in `tests/`. Run any of them with `python tests/test_<name>.py` to confirm the pipeline reproduced correctly.
+Step 11 retrains the retriever from scratch for each seed and saves the models under `models/seed_checks/`, which is excluded from git. The shipped model in `models/finetuned-retriever/` is not changed by this step. Step 12 needs the fine-tuned retriever from step 4, and the analysis in its last command needs the LoRA results that the evaluation writes.
 
-The scripts `src/rerank_experiment.py`, `src/evaluate_domain_separation.py`, `src/finalize_thresholds.py`, `src/generate_zeroshot.py`, `src/finetune_generator.py`, `src/evaluate_generator.py`, `src/evaluate_retrieval_only_baseline.py`, and `src/paraphrase_training_answers.py` are exploratory and not part of the final system. They document a generation (RAG) approach that was tested and deliberately not shipped, detailed in the Error Analysis section above. The deployed system is retrieval-only, and running these scripts is not required to reproduce it.
+`src/paraphrase_training_answers.py` is an earlier experiment that is not used by the final results. The paraphrase script rewrites training answers, which was tested as a fix for the copy behavior and not adopted. Neither is needed to reproduce the results above.
 
-## 8. Deployment
+Each test script prints the checks it runs and their results.
 
-The app is deployed on Streamlit Community Cloud, which builds and serves it directly from this GitHub repository's `main` branch with no separate upload step. `requirements.txt` is installed automatically, and `app.py`'s fallback logic downloads the fine-tuned retriever from its Hugging Face Hub repo ([jmuhire13/mamacare-qa-retriever](https://huggingface.co/jmuhire13/mamacare-qa-retriever)) at startup, since the deployed environment has no local `models/` folder.
+## Repository layout
 
-The original plan was Hugging Face Spaces, which was abandoned after Hugging Face changed its pricing partway through the project and stopped offering free hosting for Gradio apps on its `cpu-basic` tier. `app.py` was rewritten from Gradio to Streamlit as a result; the underlying retrieval and refusal-gate logic is unchanged, only the web interface layer differs.
+```text
+app.py                      Streamlit application
+requirements.txt            Pinned dependencies
+data/raw/                   Raw MOTHER files
+data/processed/             Splits and results (only the four split and threshold files are committed)
+src/                        Data preparation, retrieval, refusal, generation, and reporting scripts
+tests/                      Check scripts for each step of the pipeline
+```
 
-Verified working end to end on the deployed instance itself, not just assumed from a local test: an off-topic question ("I need a nanny and lecteur for teaching me?") was correctly refused, and an in-domain question ("Why do I feel tired during pregnancy?") was correctly matched to a relevant knowledge-base entry and answered.
+## Limitations
+
+The test split has 43 questions and the held-out split has 59, so the confidence intervals are wide. The test and held-out questions were looked at during development, including while comparing refusal designs. The threshold was chosen on validation and calibration data only. The faithfulness labels came from one reader and one pass. The stored answers reflect one dataset, and this project did not assess their clinical accuracy. The system is a research prototype, and it is not a substitute for medical advice. The app states this on its page.

@@ -1,7 +1,7 @@
 """
 Recalibrates each design's threshold using ONLY calibration data (val, the
 original 18 hand-written probes, and the new 58-question calibration half),
-then reports the final refusal rate - with a 95% confidence interval -
+then reports the final refusal rate, with a 95% confidence interval,
 against the 59-question held-out half, which none of that calibration ever
 sees. This is the fair, final number for the report.
 
@@ -59,6 +59,19 @@ def wilson_interval(successes, n, z=1.96):
     center = (p_hat + z**2 / (2 * n)) / denom
     margin = (z / denom) * math.sqrt(p_hat * (1 - p_hat) / n + z**2 / (4 * n**2))
     return (round(center - margin, 3), round(center + margin, 3))
+
+
+def bootstrap_auroc_interval(labels, scores, resamples=2000, seed=42):
+    rng = np.random.RandomState(seed)
+    labels = np.asarray(labels)
+    scores = np.asarray(scores)
+    boot = []
+    for _ in range(resamples):
+        idx = rng.randint(0, len(labels), size=len(labels))
+        if len(set(labels[idx])) < 2:
+            continue
+        boot.append(roc_auc_score(labels[idx], scores[idx]))
+    return tuple(np.round(np.percentile(boot, [2.5, 97.5]), 4))
 
 
 def best_threshold(in_domain_scores, off_topic_scores):
@@ -139,7 +152,8 @@ def main():
         print(f"  In-domain TEST accept rate: {in_domain_ok}/{len(test_scores)} ({in_domain_ok/len(test_scores):.1%})")
         print(f"  Held-out OOD refusal: {heldout_refused}/{len(heldout_scores)} "
               f"({heldout_refused/len(heldout_scores):.1%}), 95% CI [{ci_low:.1%}, {ci_high:.1%}]")
-        print(f"  AUROC (test vs held-out): {auroc:.3f}")
+        auroc_low, auroc_high = bootstrap_auroc_interval(labels, scores)
+        print(f"  AUROC (test vs held-out): {auroc:.3f}, bootstrap 95% CI [{auroc_low:.4f}, {auroc_high:.4f}]")
         print()
 
 

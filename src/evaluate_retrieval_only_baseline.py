@@ -60,8 +60,8 @@ def main():
         json.dump({"average_rougeL": round(avg_rouge, 3), "average_bertscore_f1": round(avg_bert, 3),
                    "examples": results}, f, indent=2)
 
-    print(f"Retrieval-only (top-1 passage, no generation) - Average ROUGE-L: {avg_rouge:.3f}")
-    print(f"Retrieval-only (top-1 passage, no generation) - Average BERTScore F1: {avg_bert:.3f}")
+    print(f"Retrieval-only (top-1 passage, no generation), average ROUGE-L: {avg_rouge:.3f}")
+    print(f"Retrieval-only (top-1 passage, no generation), average BERTScore F1: {avg_bert:.3f}")
     print(f"(LoRA fine-tuned generator was ROUGE-L 0.831, BERTScore F1 0.972)")
     print(f"Saved to {RESULTS_PATH}")
 

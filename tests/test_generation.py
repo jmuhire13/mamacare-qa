@@ -1,5 +1,5 @@
 """
-Independent checks on the generation experiments (Experiments 5-6) - tested
+Independent checks on the generation experiments which were tested
 and deliberately not shipped. These checks guard the central finding: that
 the LoRA generator doesn't outperform simply returning the top-1 retrieved
 passage, and that most of its headline score comes from copying.

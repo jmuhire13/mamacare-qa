@@ -1,14 +1,13 @@
 """
-Evaluates the LoRA-fine-tuned generator (Experiment 6) on the TEST split -
-never seen during training - using the same pipeline and metrics as the
-zero-shot baseline (generate_zeroshot.py, Experiment 5), for a fair
+Evaluates the LoRA-fine-tuned generator on the TEST split,
+never seen during training, using the same pipeline and metrics as the
+zero-shot baseline (generate_zeroshot.py), for a fair
 side-by-side comparison.
 
 The training loss dropped very low (0.005) after only 3 epochs on 344
-examples, which is worth being suspicious of rather than celebrating - a
-model can get a loss that low either by genuinely learning the task, or by
-memorizing the training answers in a way that doesn't transfer to new
-questions. This script is how we find out which actually happened.
+examples, which needs checking, because a model can reach that loss either by learning
+the task or by memorizing the training answers in a way that does not transfer
+to new questions. This script checks which of the two happened.
 
 Run with: python src/evaluate_generator.py
 """
@@ -81,8 +80,8 @@ def main():
         json.dump({"average_rougeL": round(avg_rouge, 3), "average_bertscore_f1": round(avg_bert, 3),
                    "examples": results}, f, indent=2)
 
-    print(f"\nLoRA fine-tuned - Average ROUGE-L: {avg_rouge:.3f}")
-    print(f"LoRA fine-tuned - Average BERTScore F1: {avg_bert:.3f}")
+    print(f"\nLoRA fine-tuned, average ROUGE-L: {avg_rouge:.3f}")
+    print(f"LoRA fine-tuned, average BERTScore F1: {avg_bert:.3f}")
     print(f"(Zero-shot baseline was ROUGE-L 0.437, BERTScore F1 0.909)")
     print(f"Saved to {RESULTS_PATH}")
 

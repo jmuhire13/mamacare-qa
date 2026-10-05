@@ -1,5 +1,5 @@
 """
-Experiment 7: the final out-of-domain refusal test, reported with a 95%
+The final out-of-domain refusal test, reported with a 95%
 confidence interval so the number can actually be trusted.
 
 Evaluated against data/out_of_domain_heldout.json (59 questions) only -
@@ -39,7 +39,7 @@ def load_split(name):
 
 
 def wilson_interval(successes, n, z=1.96):
-    """95% confidence interval for a proportion - makes explicit how much
+    """95% confidence interval for a proportion. It makes explicit how much
     to trust a rate measured on a limited number of examples."""
     if n == 0:
         return (0.0, 0.0)
@@ -78,6 +78,7 @@ def main():
 
     true_positive = 0
     confidently_wrong = 0
+    confidently_wrong_questions = []
     refused_wouldve_been_right = 0
     refused_correctly = 0
     for item in test:
@@ -88,6 +89,7 @@ def main():
             true_positive += 1
         elif passes and not is_correct:
             confidently_wrong += 1
+            confidently_wrong_questions.append(item["question"])
         elif not passes and is_correct:
             refused_wouldve_been_right += 1
         else:
@@ -104,6 +106,7 @@ def main():
             "n": len(test),
             "true_positive": true_positive,
             "confidently_wrong": confidently_wrong,
+            "confidently_wrong_questions": confidently_wrong_questions,
             "refused_wouldve_been_right": refused_wouldve_been_right,
             "refused_correctly": refused_correctly,
             "true_accuracy": round(true_positive / len(test), 3),
@@ -127,6 +130,8 @@ def main():
           f"({results['in_domain_test']['true_accuracy']:.1%}), 95% CI "
           f"[{true_acc_ci_low:.1%}, {true_acc_ci_high:.1%}]")
     print(f"  Confidently WRONG (confident, wrong answer): {confidently_wrong}/{len(test)}")
+    for q in confidently_wrong_questions:
+        print(f"    - {q}")
     print(f"  Refused, would've been correct (missed):    {refused_wouldve_been_right}/{len(test)}")
     print(f"  Refused, would've been wrong anyway:        {refused_correctly}/{len(test)}")
     print()

@@ -30,7 +30,7 @@ def main():
     check("held-out out-of-domain set has a real, substantial size (>= 30 questions)", len(heldout_questions) >= 30)
 
     # The whole point of this test is independence from what the threshold
-    # was tuned on - if any held-out question also appears in the tuning
+    # was tuned on. If any held-out question also appears in the tuning
     # script's probe list, or in the calibration half, the test wouldn't be
     # a fair, held-out check.
     overlap_probes = [q for q in heldout_questions if q in tuning_probes_source]
@@ -47,7 +47,7 @@ def main():
     check("out_of_domain n matches the actual held-out question set size", ood["n"] == len(heldout_questions))
 
     # The four in-domain outcome categories must account for every test
-    # question exactly once - no double-counting, nothing missed.
+    # question exactly once: no double-counting, nothing missed.
     total_categorized = (
         in_domain["true_positive"]
         + in_domain["confidently_wrong"]

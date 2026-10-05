@@ -1,6 +1,6 @@
 """
 Independent checks on data_prep.py's output. These don't just re-run the
-pipeline and trust its own printout - they check the actual files it wrote
+pipeline and trust its own printout. They check the actual files it wrote
 against rules that must hold if the cleaning and splitting worked correctly.
 
 Run with: python tests/test_data_prep.py

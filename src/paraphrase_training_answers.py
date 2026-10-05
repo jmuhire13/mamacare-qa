@@ -1,29 +1,29 @@
 """
-Fixes the shortcut-learning problem found in Experiment 6: the generator
+Addresses a shortcut-learning problem in the generator: the generator
 learned to copy a retrieved passage verbatim instead of genuinely writing
 an answer, because every training target was character-for-character
-identical to one of the inputs - the easiest possible pattern to learn.
+identical to one of the inputs. The easiest possible pattern to learn.
 
 The fix: before fine-tuning, rewrite each of the 344 training answers into
 a paraphrase (same facts, different wording) using the base model's own
-zero-shot ability - Experiment 5 already showed it paraphrases well without
+zero-shot ability. The zero-shot test already showed it paraphrases well without
 any training (40/43 test answers were genuine paraphrases, not copies).
 Training on these paraphrased targets removes the "just copy the input"
 shortcut, since the target text no longer matches any retrieved passage
 exactly.
 
-Disclosure (per the course's data rules): this generates machine-written
+Disclosure: this generates machine-written
 text, but only as TRAINING TARGETS for the generator, not as the primary
-dataset - the real, human-authored question/answer pairs remain the
+dataset. The real, human-authored question/answer pairs remain the
 primary data throughout, and this is a clearly labeled, secondary
 transformation of them for one specific training purpose. The evaluation
 ground truth (the actual TEST set references) is never touched or
-paraphrased - only the 344 TRAIN answers are rewritten, and only for
+paraphrased. Only the 344 TRAIN answers are rewritten, and only for
 building generator training targets.
 
 Each paraphrase is checked against its original with BERTScore and
 dropped (falling back to the original answer) if it drifts too far in
-meaning - a cheap safety net against the paraphrasing step accidentally
+meaning. A cheap safety net against the paraphrasing step accidentally
 introducing factual drift into training data for a health application.
 
 Run with: python src/paraphrase_training_answers.py

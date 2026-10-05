@@ -4,7 +4,7 @@ wrong-answer cases?
 
 Why this might help: the bi-encoder (our fine-tuned retriever) squeezes the
 question and each answer into separate single vectors, compared only after
-the fact - it never lets the question and answer "look at" each other
+the fact: it never lets the question and answer "look at" each other
 directly. A cross-encoder instead feeds [question] [SEP] [answer] into a
 transformer TOGETHER, so every word of the question can attend to every
 word of the answer. This is slower (it has to do this once per candidate,

@@ -7,7 +7,7 @@ to make this accept/refuse decision. This is a deliberate choice based on a
 direct comparison between the two models' confidence scores: fine-tuning
 made retrieval more accurate but also made its confidence scores less
 reliable at telling real maternal-health questions apart from other
-health-adjacent topics (hair loss, sports injuries, etc.) - the pretrained
+health-adjacent topics (hair loss, sports injuries, etc.). The pretrained
 model is a better judge of
 "is this even in-domain," even though the fine-tuned model is better at
 picking the exact right answer once that gate says yes. app.py uses the
@@ -16,7 +16,7 @@ for the actual answer, matching this calibration.
 
 How the threshold is chosen: for each validation question, compute its best
 similarity to any answer using the pretrained model (should be ABOVE the
-threshold - the app must be willing to attempt real in-domain questions),
+threshold: the app must be willing to attempt real in-domain questions),
 and the same for each off-topic question (should be BELOW the threshold -
 the app must refuse them). We pick the value that best separates the two
 groups.
@@ -27,7 +27,7 @@ original 18 hand-written probes were mostly easy (unrelated topics like
 they produced only reached ~50% refusal on harder, health-adjacent
 questions (hair loss, seasonal allergies, etc.).
 Calibrating against `data/out_of_domain_calibration.json` (58 harder
-questions) as well fixes this - confirmed by checking the resulting
+questions) as well fixes this. Confirmed by checking the resulting
 threshold against a completely separate 59-question held-out set that this
 script never touches (see out_of_domain_test.py).
 
@@ -132,8 +132,8 @@ def main():
             "in_domain_accept_rate": round(accepted_in_domain / len(in_domain_scores), 3),
             "off_topic_reject_rate": round(rejected_off_topic / len(off_topic_scores), 3),
             "gate_model": GATE_MODEL_NAME,
-            "note": "accept rate here means 'gate did not refuse', not 'answer given was correct' - "
-                    "see out_of_domain_test.py for the true correctness breakdown",
+            "note": "accept rate here means 'gate did not refuse', not 'answer given was correct'. See "
+                    "out_of_domain_test.py for the true correctness breakdown",
         }, f, indent=2)
     print(f"Saved to {THRESHOLD_PATH}")
 

@@ -1,8 +1,7 @@
 """
-Experiment 6: fine-tune the generator with LoRA on our own training data,
-to fix the grounding failure found in Experiment 5 (the zero-shot model
-sometimes ignores the retrieved passages and writes generic content
-instead). Training on real (question, retrieved passages, correct answer)
+Fine-tunes the generator with LoRA on the training data, to fix the grounding
+failure of the zero-shot model. The zero-shot model sometimes ignores the
+retrieved passages and writes generic content instead. Training on real (question, retrieved passages, correct answer)
 triples should teach the model to actually use what it's given.
 
 LoRA (Low-Rank Adaptation): instead of updating all ~500 million of the
@@ -115,7 +114,7 @@ def main():
 
             total_loss += loss.item()
 
-        print(f"epoch {epoch}/{EPOCHS} - average loss: {total_loss / len(shuffled):.4f}")
+        print(f"epoch {epoch}/{EPOCHS}, average loss: {total_loss / len(shuffled):.4f}")
 
     OUTPUT_DIR.parent.mkdir(parents=True, exist_ok=True)
     model.save_pretrained(str(OUTPUT_DIR))

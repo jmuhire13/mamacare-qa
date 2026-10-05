@@ -1,14 +1,14 @@
 """
-Experiment 5: zero-shot generation - can a small instruction-following
-language model write a good answer just by reading the top-3 retrieved
-passages, with no training of its own?
+Zero-shot generation: can a small instruction-following language model write a
+good answer just by reading the top-3 retrieved passages, with no training of
+its own?
 
 For each test question: retrieve the top-3 answers from the knowledge base
 (using our fine-tuned retriever), then ask Qwen2.5-0.5B-Instruct to answer
 the question using ONLY those passages, in its own words. This tests
 whether a pretrained generator, with no fine-tuning, already does a
-reasonable job when it's given the right source material - the baseline
-for Experiment 6, which fine-tunes the same model with LoRA.
+reasonable job when it's given the right source material. The baseline
+for the LoRA fine-tuned model in finetune_generator.py.
 
 Evaluated with ROUGE-L (word-overlap with the reference answer) and
 BERTScore (meaning-based similarity), used together rather than either

@@ -1,11 +1,11 @@
 """
-Experiment 4: fine-tune a sentence-embedding model on our own train pairs,
-instead of using it exactly as downloaded (that was Experiment 3).
+Fine-tunes a sentence-embedding model on the training pairs, instead of using
+it exactly as downloaded.
 
 How the fine-tuning works: for every (question, answer) pair in the training
 set, we tell the model "these two belong together, pull their embeddings
 closer." Every other answer in the same training batch acts as an automatic
-"these do NOT belong together, push them apart" example - this is called
+"these do NOT belong together, push them apart" example. This is called
 MultipleNegativesRankingLoss, and it needs no manually written wrong
 answers, just batches of real pairs.
 
@@ -14,12 +14,12 @@ convenience method (model.fit()), because on this machine the newer
 sentence-transformers version routes .fit() through the `datasets` library,
 and loading torch + scikit-learn + datasets together crashes Python outright
 with a native-library conflict, confirmed by isolating each import
-separately - merely having `datasets` installed is enough to trigger it,
+separately. Merely having `datasets` installed is enough to trigger it,
 even if this script never imports it. Writing the training step by hand
 avoids the `datasets` import entirely while computing the same loss
 (MultipleNegativesRankingLoss, scale 20, the library default). It does not
 replicate .fit()'s default learning-rate warmup, weight decay, or gradient
-clipping - a deliberate simplification given this dataset's small size, not
+clipping. A deliberate simplification given this dataset's small size, not
 an unexamined difference.
 
 Output: a fine-tuned model saved to models/finetuned-retriever/ (gitignored;
@@ -83,7 +83,7 @@ def main():
             total_loss += loss.item()
             n_batches += 1
 
-        print(f"epoch {epoch}/{EPOCHS} - average loss: {total_loss / n_batches:.4f}")
+        print(f"epoch {epoch}/{EPOCHS}, average loss: {total_loss / n_batches:.4f}")
 
     OUTPUT_DIR.parent.mkdir(parents=True, exist_ok=True)
     model.save(str(OUTPUT_DIR))

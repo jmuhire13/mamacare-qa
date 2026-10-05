@@ -1,7 +1,6 @@
 """
-Experiment 4 evaluation: score the fine-tuned retriever (from
-finetune_retriever.py) the exact same way the three baselines were scored,
-so the comparison between them is fair.
+Scores the fine-tuned retriever (from finetune_retriever.py) the same way
+the three baselines were scored, so the comparison between them is fair.
 
 Run with: python src/evaluate_finetuned_retriever.py
 """
