@@ -125,8 +125,6 @@ streamlit run app.py
 
 Step 11 retrains the retriever from scratch for each seed and saves the models under `models/seed_checks/`, which is excluded from git. The shipped model in `models/finetuned-retriever/` is not changed by this step. Step 12 needs the fine-tuned retriever from step 4, and the analysis in its last command needs the LoRA results that the evaluation writes.
 
-`src/paraphrase_training_answers.py` is an earlier experiment that is not used by the final results. The paraphrase script rewrites training answers, which was tested as a fix for the copy behavior and not adopted. Neither is needed to reproduce the results above.
-
 Each test script prints the checks it runs and their results.
 
 ## Repository layout
