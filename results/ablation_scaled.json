@@ -1,0 +1,18 @@
+{
+  "variant": "scaled",
+  "total_steps": 176,
+  "warmup_steps": 18,
+  "max_grad_norm": 1.0,
+  "val": {
+    "top_1": 0.837,
+    "top_3": 0.953,
+    "mrr": 0.902,
+    "n_queries": 43
+  },
+  "test": {
+    "top_1": 0.837,
+    "top_3": 0.953,
+    "mrr": 0.901,
+    "n_queries": 43
+  }
+}

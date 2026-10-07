@@ -18,8 +18,10 @@ separately. Merely having `datasets` installed is enough to trigger it,
 even if this script never imports it. Writing the training step by hand
 avoids the `datasets` import entirely while computing the same loss
 (MultipleNegativesRankingLoss, scale 20, the library default). It does not
-replicate .fit()'s default learning-rate warmup, weight decay, or gradient
-clipping. A deliberate simplification given this dataset's small size, not
+replicate .fit()'s default learning-rate warmup or gradient clipping. It
+does apply the same weight decay as .fit()'s default (0.01), because
+torch.optim.AdamW defaults to that value and this loop does not override
+it. A deliberate simplification given this dataset's small size, not
 an unexamined difference.
 
 Output: a fine-tuned model saved to models/finetuned-retriever/ (gitignored;

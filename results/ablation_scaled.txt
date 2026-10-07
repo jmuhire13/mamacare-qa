@@ -1,0 +1,15 @@
+  from sentence_transformers import SentenceTransformer, losses
+variant=scaled total_steps=176 warmup_steps=18
+The `tokenize` method is deprecated, please use `preprocess` instead.
+variant=scaled epoch 1/8, average loss: 0.0553, lr: 1.95e-05
+variant=scaled epoch 2/8, average loss: 0.0375, lr: 1.67e-05
+variant=scaled epoch 3/8, average loss: 0.0054, lr: 1.39e-05
+variant=scaled epoch 4/8, average loss: 0.0095, lr: 1.11e-05
+variant=scaled epoch 5/8, average loss: 0.0028, lr: 8.35e-06
+variant=scaled epoch 6/8, average loss: 0.0094, lr: 5.57e-06
+variant=scaled epoch 7/8, average loss: 0.0039, lr: 2.78e-06
+variant=scaled epoch 8/8, average loss: 0.0083, lr: 0.00e+00
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|##########| 1/1 [00:00<00:00,  3.98it/s]Writing model shards: 100%|##########| 1/1 [00:00<00:00,  3.97it/s]
+RESULT variant=scaled val={'top_1': 0.837, 'top_3': 0.953, 'mrr': 0.902, 'n_queries': 43}
+RESULT variant=scaled test={'top_1': 0.837, 'top_3': 0.953, 'mrr': 0.901, 'n_queries': 43}
+Saved summary to results\ablation_scaled.json

@@ -1,0 +1,18 @@
+{
+  "variant": "literal_default",
+  "total_steps": 176,
+  "warmup_steps": 10000,
+  "max_grad_norm": 1.0,
+  "val": {
+    "top_1": 0.86,
+    "top_3": 0.953,
+    "mrr": 0.907,
+    "n_queries": 43
+  },
+  "test": {
+    "top_1": 0.767,
+    "top_3": 0.884,
+    "mrr": 0.844,
+    "n_queries": 43
+  }
+}
