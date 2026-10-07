@@ -6,6 +6,8 @@ Live app: [https://mamacare-app-4dakesxahaqvamub4rjcbk.streamlit.app/](https://m
 
 Demo video: to be added
 
+License: [MIT](LICENSE)
+
 ## Why this design
 
 Expectant mothers and newborn caregivers often need a quick answer when a clinician is not available. A search engine returns generic results for health questions, and a language model can state a wrong answer with confidence. This project treats refusal as a required behavior. An answer that says the assistant does not know is preferable to a confident wrong answer, so the system measures both how often it answers correctly and how often it refuses off-topic questions.
